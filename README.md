@@ -1,6 +1,11 @@
 # JSON Toolbox
 
-Local-first data conversion and JSON manipulation for developers.
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Version](https://img.shields.io/badge/version-1.0.0-green.svg)](https://github.com/retea-se/json/releases/tag/v1.0.0)
+[![Offline](https://img.shields.io/badge/offline-ready-brightgreen.svg)](#offline--air-gapped)
+[![Local Only](https://img.shields.io/badge/execution-local--only-orange.svg)](#why-local-execution)
+
+**Local-first JSON/CSV/YAML/XML conversion for developers. No server, no telemetry, deterministic output.**
 
 ```
 Input → Transform → Output
@@ -10,166 +15,274 @@ Input → Transform → Output
  YAML   Repair     Tree View
 ```
 
-**No server. No telemetry. Deterministic output.**
+---
+
+## Quick Start
+
+**Use it in 10 seconds:**
+
+1. Open [mackan.eu/tools/json](https://mackan.eu/tools/json/)
+2. Paste your data
+3. Click convert
+
+No signup. No installation. Works offline after first load.
 
 ---
 
-## What It Does
+## Examples
 
-Convert, validate, format, and transform JSON and related data formats. Everything runs in your browser. Nothing leaves your machine.
+### CSV → JSON
 
-**Formats:** JSON, CSV, XML, YAML, CSS  
-**Operations:** Convert, Format, Minify, Validate, Repair, Diff, Query, Transform  
-**Output:** JSON, TypeScript interfaces, Go structs, Python dataclasses, JSON Schema, Tree view
+**Input:**
+```csv
+name,role,active
+Alice,admin,true
+Bob,user,false
+```
+
+**Output:**
+```json
+[
+  {"name": "Alice", "role": "admin", "active": true},
+  {"name": "Bob", "role": "user", "active": false}
+]
+```
+
+### JSON → TypeScript
+
+**Input:**
+```json
+{"id": 1, "name": "Product", "price": 29.99, "tags": ["sale"]}
+```
+
+**Output:**
+```typescript
+interface Root {
+  id: number;
+  name: string;
+  price: number;
+  tags: string[];
+}
+```
+
+### Repair Broken JSON
+
+**Input:**
+```javascript
+{name: 'Alice', active: true,}  // single quotes + trailing comma
+```
+
+**Output:**
+```json
+{"name": "Alice", "active": true}
+```
 
 ---
 
-## Capability Matrix
+## Capabilities
 
-| Module | Input | Output | Notes |
-|--------|-------|--------|-------|
-| **CSV** | CSV, TSV | JSON | Column filter, transpose, delimiter auto-detect |
-| | JSON | CSV | Array-of-objects to CSV |
-| **XML** | XML | JSON | Preserves attributes, compact mode |
+| Operation | Input | Output | Notes |
+|-----------|-------|--------|-------|
+| **CSV** | CSV, TSV | JSON | Auto-detect delimiter, transpose |
+| | JSON | CSV | Array-of-objects export |
+| **XML** | XML | JSON | Preserves attributes |
 | | JSON | XML | Configurable output |
-| **YAML** | YAML | JSON | Full YAML 1.2 support |
-| | JSON | YAML | Flow style, custom indent |
-| **CSS** | CSS | JSON | Rule-based parsing |
+| **YAML** | YAML | JSON | YAML 1.2 compliant |
+| | JSON | YAML | Flow/block style |
 | **Format** | JSON | JSON | Beautify, minify, sort keys |
-| **Validate** | JSON | Report | Syntax check, schema validation |
-| **Repair** | Broken JSON | Valid JSON | Fixes trailing commas, single quotes, comments |
-| **Diff** | 2× JSON | Diff view | Visual comparison, ignore order option |
-| **Query** | JSON + JSONPath | JSON subset | Standard JSONPath expressions |
-| **Schema** | JSON | JSON Schema | Draft-07 generation |
-| **Transform** | JSON | TypeScript, Go, Python | Interfaces, structs, dataclasses, JSDoc |
-| **Utilities** | String | String | Base64, URL encode/decode, escape |
-| **Tree** | JSON | Tree view | Interactive expand/collapse |
+| **Validate** | JSON | Report | Syntax + schema validation |
+| **Repair** | Broken JSON | Valid JSON | Trailing commas, quotes, comments |
+| **Diff** | 2× JSON | Diff | Visual comparison |
+| **Query** | JSON | Subset | JSONPath expressions |
+| **Schema** | JSON | JSON Schema | Draft-07 |
+| **Transform** | JSON | TS/Go/Python | Interfaces, structs, dataclasses |
+| **Utilities** | String | String | Base64, URL encode, escape |
+| **Tree** | JSON | Tree view | Interactive navigation |
 
 ---
 
 ## Why Local Execution?
 
-| Concern | Server-based tools | JSON Toolbox |
-|---------|-------------------|--------------|
-| **Data privacy** | Data sent to third party | Data never leaves browser |
-| **PII handling** | Compliance risk | No compliance burden |
-| **Offline use** | Requires internet | Works offline after first load |
-| **Speed** | Network latency | Instant |
-| **Determinism** | Server may change | Same input = same output |
-| **Enterprise use** | May violate policy | IT-friendly |
+| Concern | Server-based | JSON Toolbox |
+|---------|--------------|--------------|
+| Data privacy | Sent to third party | Never leaves browser |
+| PII/PHI handling | Compliance risk | No compliance burden |
+| Offline | Requires internet | Works offline |
+| Speed | Network latency | Instant |
+| Determinism | Server may change | Same input = same output |
+| Enterprise | May violate policy | IT-approved friendly |
 
----
-
-## Deterministic Developer Utility
-
-JSON Toolbox follows the **Deterministic Developer Utility** pattern:
-
-1. **Local execution** — No network calls during operation
-2. **Deterministic output** — Same input always produces same output
-3. **Zero onboarding** — Paste data, click convert
-4. **No side effects** — Nothing installed, nothing persisted without consent
-5. **Keyboard-first** — Full operation via shortcuts (press `?`)
-
-This is a tool, not a service.
+**When to use JSON Toolbox:**
+- Converting production data exports with PII
+- Working with API keys or credentials
+- Processing proprietary business data
+- Air-gapped or regulated environments
+- Needing reproducible, auditable output
 
 ---
 
 ## Keyboard Shortcuts
 
+Press `?` to view all shortcuts.
+
 | Shortcut | Action |
 |----------|--------|
-| `?` | Show/hide shortcuts |
-| `Ctrl+Enter` | Run current operation |
-| `Ctrl+1-9` | Switch to tab 1-9 |
-| `Ctrl+Tab` | Next tab |
-| `Ctrl+Shift+Tab` | Previous tab |
+| `?` | Show shortcuts |
+| `Ctrl+Enter` | Run operation |
+| `Ctrl+1-9` | Switch tabs |
 | `Ctrl+Shift+C` | Copy output |
-| `Escape` | Close modal |
+
+---
+
+## Offline & Air-Gapped
+
+JSON Toolbox works fully offline after initial page load.
+
+**For air-gapped environments:**
+1. Load page once with internet
+2. All resources cached locally
+3. Disconnect — tool continues working
+
+**Disable analytics entirely:**
+```html
+<script>window.ANALYTICS_DISABLED = true;</script>
+```
+
+Or download this repo and self-host.
+
+---
+
+## FAQ
+
+<details>
+<summary><strong>Is my data sent anywhere?</strong></summary>
+
+No. All processing happens in your browser. User data never leaves your machine.
+</details>
+
+<details>
+<summary><strong>Can I use this with PII/PHI/sensitive data?</strong></summary>
+
+Yes. JSON Toolbox is designed for regulated workloads. Data stays local, no compliance burden.
+</details>
+
+<details>
+<summary><strong>What about analytics/telemetry?</strong></summary>
+
+**Telemetry:** None. No user tracking, no identifiers, no fingerprinting.
+
+**Analytics:** Optional aggregate usage stats (which tabs are used). Cookieless, self-hosted, respects DNT. Disable with `ANALYTICS_DISABLED = true`.
+</details>
+
+<details>
+<summary><strong>Does it work offline?</strong></summary>
+
+Yes. After first load, all features work without internet. No external dependencies at runtime.
+</details>
+
+<details>
+<summary><strong>What dependencies does it use?</strong></summary>
+
+Self-hosted only (no CDN):
+- PapaParse — CSV parsing
+- js-yaml — YAML parsing  
+- jsonrepair — JSON fixing
+- Lucide — Icons
+
+No frameworks, no build systems, no external services.
+</details>
+
+<details>
+<summary><strong>Can I self-host this?</strong></summary>
+
+Yes. Clone this repo, serve statically. Set `ANALYTICS_DISABLED = true` for full air-gap.
+</details>
+
+---
+
+## Philosophy
+
+JSON Toolbox follows the **Deterministic Developer Utility** pattern:
+
+1. **Local execution** — No network calls during operation
+2. **Deterministic output** — Same input → same output, always
+3. **Zero onboarding** — Paste, click, done
+4. **No side effects** — Nothing installed without consent
+5. **Keyboard-first** — Full operation via shortcuts
+
+This is a tool, not a service.
 
 ---
 
 ## Policies
 
-### Dependency Policy
-
-**Allowed:** Capability libraries (local-only, deterministic, self-hosted)
-
-Self-hosted in `/vendor/`:
-- `papaparse.min.js` — CSV parsing (RFC 4180 compliant)
-- `js-yaml.min.js` — YAML parsing (YAML 1.2)
-- `jsonrepair.min.js` — Broken JSON repair
-- `lucide.min.js` — Icon library
-
-**Disallowed:** Frameworks, build systems, CDN dependencies, external services
-
-### Local Execution Policy
-
-- No network calls during tool operation
-- No backend or cloud processing
-- No telemetry (aggregate analytics only, opt-out available)
-- All processing in browser JavaScript
-
-### Privacy Policy
-
+### Privacy
 - Zero telemetry (no user tracking)
-- Privacy-first analytics (aggregate usage only, cookieless, self-hosted, opt-out)
-- Zero cookies (localStorage for preferences only)
-- User data never transmitted to any server
+- Optional aggregate analytics (cookieless, self-hosted, opt-out)
+- No cookies
+- User data never transmitted
 
-### Accessibility Policy
+### Dependencies
+- **Allowed:** Local-only capability libraries
+- **Disallowed:** Frameworks, CDNs, external services
 
-- WCAG AA contrast compliance (≥4.5:1)
-- Keyboard navigation for all functions
-- ARIA labels on interactive elements
+### Accessibility
+- WCAG AA contrast (≥4.5:1)
+- Full keyboard navigation
 - Screen reader compatible
+
+See [SECURITY.md](SECURITY.md) for full security model.
 
 ---
 
-## Technical Details
+## Suite
 
-| Metric | Value |
-|--------|-------|
-| Viewport | 1366×768, 1920×1080 (no scroll) |
-| Languages | Swedish (sv), English (en) |
-| Themes | Light, Dark |
-| i18n Keys | 400+ |
+JSON Toolbox is part of the **mackan.eu developer utility suite** — a collection of deterministic, privacy-first tools:
 
-### Architecture
+| Tool | Purpose | Status |
+|------|---------|--------|
+| **JSON Toolbox** | Data conversion & manipulation | v1.0.0 |
+| Password Generator | Cryptographic passwords | Available |
+| Image Converter | Local format conversion | Available |
+| Coordinate Converter | GPS transformation | Available |
+
+Suite philosophy: Local execution, zero telemetry, deterministic output.
+
+---
+
+## Project Structure
 
 ```
-tools/json/
-├── index.php          Main page, i18n, structured data
-├── lang.php           Translation strings (sv/en, 400+ keys)
-├── script.js          Core orchestration, shortcuts, persistence
-├── style.css          Design tokens, components
-├── modules/           13 lazy-loaded capability modules
-│   ├── csv.js, css.js, xml.js, yaml.js
+├── index.php          Main page
+├── lang.php           i18n strings (sv/en)
+├── script.js          Core logic, shortcuts
+├── style.css          Design system
+├── modules/           13 capability modules
+│   ├── csv.js, xml.js, yaml.js, css.js
 │   ├── format.js, validate.js, fix.js
 │   ├── diff.js, query.js, schema.js
 │   └── transform.js, utilities.js, tree.js
-└── vendor/            Self-hosted capability libraries
-    ├── papaparse.min.js
-    ├── jsonrepair.min.js
-    ├── js-yaml.min.js
-    └── lucide.min.js
+├── vendor/            Self-hosted libraries
+├── docs/              QA reports, design docs
+└── SECURITY.md        Security policy
 ```
 
 ---
 
-## Related Tools
+## Contributing
 
-*Part of the mackan.eu developer utility suite:*
+See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
-- [Password Generator](/tools/passwordgenerator/) — Cryptographically secure passwords
-- [Image Converter](/tools/bildconverter/) — Local image format conversion
-- [Coordinate Converter](/tools/koordinat/) — GPS coordinate transformation
+**TL;DR:** PRs welcome. No new dependencies. No telemetry. Preserve local-only execution.
 
 ---
 
-## Version
+## License
 
-**1.0.0** — Developer Ergonomics Pass V1
+[MIT](LICENSE)
 
 ---
 
-**URL:** https://mackan.eu/tools/json/
+**Version:** 1.0.0  
+**URL:** [mackan.eu/tools/json](https://mackan.eu/tools/json/)  
+**Source:** [github.com/retea-se/json](https://github.com/retea-se/json)
