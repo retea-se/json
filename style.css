@@ -1,0 +1,2500 @@
+/**
+ * JSON Toolbox - Design System v3.0
+ * Design Identity Pass v1
+ *
+ * Design Philosophy:
+ * - Developer-oriented power tool aesthetic
+ * - VSCode/JetBrains/Figma inspired patterns
+ * - Restrained, intentional color usage
+ * - Information density over whitespace
+ *
+ * Typography: IBM Carbon scale
+ * Icons: Lucide at 16px (small) / 18px (medium) / 20px (large)
+ * WCAG: AA compliant (>= 4.5:1 contrast)
+ */
+
+/* ============================================
+   DESIGN TOKENS
+   ============================================ */
+
+:root {
+  /* === Spacing Scale (IBM Carbon) === */
+  --space-0: 0;
+  --space-xs: 0.125rem;   /* 2px */
+  --space-sm: 0.25rem;    /* 4px */
+  --space-md: 0.5rem;     /* 8px */
+  --space-lg: 0.75rem;    /* 12px */
+  --space-xl: 1rem;       /* 16px */
+  --space-2xl: 1.5rem;    /* 24px */
+  --space-3xl: 2rem;      /* 32px */
+  --space-4xl: 2.5rem;    /* 40px */
+  --space-5xl: 3rem;      /* 48px */
+
+  /* Semantic spacing aliases */
+  --space-component: var(--space-xl);
+  --space-section: var(--space-2xl);
+  --space-layout: var(--space-3xl);
+
+  /* === Border & Radius === */
+  --radius-none: 0;
+  --radius-sm: 0.125rem;  /* 2px - subtle */
+  --radius-md: 0.25rem;   /* 4px - inputs */
+  --radius-lg: 0.375rem;  /* 6px - cards */
+  --radius-xl: 0.5rem;    /* 8px - modals */
+  --radius-2xl: 0.75rem;  /* 12px - panels */
+  --radius-full: 9999px;
+
+  --border-thin: 1px;
+  --border-medium: 2px;
+
+  /* === Typography Scale (Carbon) === */
+  --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'IBM Plex Sans', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: 'JetBrains Mono', 'IBM Plex Mono', 'Fira Code', 'SF Mono', Consolas, 'Liberation Mono', Menlo, monospace;
+
+  /* Font sizes */
+  --text-caption: 0.6875rem;  /* 11px */
+  --text-body-sm: 0.75rem;    /* 12px */
+  --text-body: 0.8125rem;     /* 13px */
+  --text-body-lg: 0.875rem;   /* 14px */
+  --text-heading-sm: 1rem;    /* 16px */
+  --text-heading: 1.125rem;   /* 18px */
+  --text-heading-lg: 1.25rem; /* 20px */
+  --text-display: 1.5rem;     /* 24px */
+
+  /* Line heights */
+  --leading-none: 1;
+  --leading-tight: 1.25;
+  --leading-snug: 1.375;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.625;
+  --leading-loose: 2;
+
+  /* Font weights */
+  --weight-normal: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+
+  /* Letter spacing */
+  --tracking-tight: -0.01em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.025em;
+
+  /* === Transitions === */
+  --duration-instant: 50ms;
+  --duration-fast: 100ms;
+  --duration-base: 150ms;
+  --duration-slow: 250ms;
+  --duration-slower: 350ms;
+
+  --ease-default: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+
+  --transition-fast: var(--duration-fast) var(--ease-default);
+  --transition-base: var(--duration-base) var(--ease-default);
+  --transition-slow: var(--duration-slow) var(--ease-default);
+
+  /* === Elevation (subtle, no box-shadow circus) === */
+  --elevation-0: none;
+  --elevation-1: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --elevation-2: 0 2px 4px rgba(0, 0, 0, 0.06);
+  --elevation-3: 0 4px 8px rgba(0, 0, 0, 0.08);
+  --elevation-4: 0 8px 16px rgba(0, 0, 0, 0.10);
+  --elevation-overlay: 0 12px 28px rgba(0, 0, 0, 0.15);
+
+  /* === Focus Ring === */
+  --focus-ring-width: 2px;
+  --focus-ring-offset: 2px;
+
+  /* ============================================
+     LIGHT THEME COLORS (WCAG AA)
+     Design Identity Pass v1 - Refined palette
+     ============================================ */
+
+  /* Primary palette - Slightly warmer blue */
+  --color-primary: #0066cc;
+  --color-primary-hover: #0052a3;
+  --color-primary-active: #004080;
+  --color-primary-subtle: rgba(0, 102, 204, 0.06);
+  --color-primary-muted: rgba(0, 102, 204, 0.12);
+
+  /* Accent - For highlights and selections */
+  --color-accent: #7c3aed;
+  --color-accent-hover: #6d28d9;
+  --color-accent-subtle: rgba(124, 58, 237, 0.06);
+
+  /* Surface colors - Tighter tonal range */
+  --color-bg: #ffffff;
+  --color-bg-subtle: #f8f9fa;
+  --color-bg-muted: #f1f3f5;
+  --color-bg-emphasis: #212529;
+  --color-bg-overlay: rgba(0, 0, 0, 0.5);
+  --color-bg-inset: #f4f5f7;
+
+  --color-surface: #ffffff;
+  --color-surface-raised: #f8f9fa;
+  --color-surface-sunken: #f1f3f5;
+  --color-surface-overlay: #ffffff;
+
+  /* Border - More subtle, cohesive */
+  --color-border: #dee2e6;
+  --color-border-muted: #e9ecef;
+  --color-border-subtle: #f1f3f5;
+  --color-border-strong: #adb5bd;
+
+  /* Text - WCAG AA verified, tighter hierarchy */
+  --color-text: #212529;           /* 16.1:1 on white */
+  --color-text-secondary: #495057; /* 7.4:1 on white */
+  --color-text-tertiary: #6c757d;  /* 4.9:1 on white */
+  --color-text-placeholder: #adb5bd;
+  --color-text-disabled: #ced4da;
+  --color-text-inverse: #ffffff;
+  --color-text-link: #0066cc;
+
+  /* Semantic: Success - Muted green */
+  --color-success: #198754;
+  --color-success-emphasis: #157347;
+  --color-success-bg: #d1f7e5;
+  --color-success-border: #a3e4c5;
+
+  /* Semantic: Error - Clear red */
+  --color-error: #dc3545;
+  --color-error-emphasis: #b02a37;
+  --color-error-bg: #fce8ea;
+  --color-error-border: #f5c2c7;
+
+  /* Semantic: Warning - Warm amber */
+  --color-warning: #cc8400;
+  --color-warning-emphasis: #997000;
+  --color-warning-bg: #fff3cd;
+  --color-warning-border: #ffe69c;
+
+  /* Semantic: Info - Calm blue */
+  --color-info: #0077b6;
+  --color-info-emphasis: #005f8a;
+  --color-info-bg: #cfe8f3;
+  --color-info-border: #9ecfeb;
+
+  /* === Component Tokens (Light) === */
+  --jt-tab-bg: var(--color-bg-subtle);
+  --jt-tab-bg-hover: var(--color-bg-muted);
+  --jt-tab-bg-active: var(--color-surface);
+  --jt-tab-border: var(--color-border);
+  --jt-tab-text: var(--color-text-secondary);
+  --jt-tab-text-hover: var(--color-text);
+  --jt-tab-text-active: var(--color-primary);
+
+  --jt-panel-bg: var(--color-surface);
+  --jt-panel-border: var(--color-border);
+
+  --jt-input-bg: var(--color-surface);
+  --jt-input-bg-hover: var(--color-surface);
+  --jt-input-border: var(--color-border);
+  --jt-input-border-hover: var(--color-border-strong);
+  --jt-input-border-focus: var(--color-primary);
+
+  --jt-code-bg: var(--color-surface-raised);
+  --jt-code-border: var(--color-border);
+
+  --jt-badge-bg: var(--color-success-bg);
+  --jt-badge-text: var(--color-success);
+  --jt-badge-border: var(--color-success-border);
+
+  /* Focus ring */
+  --jt-focus-ring: 0 0 0 var(--focus-ring-offset) var(--color-surface),
+                   0 0 0 calc(var(--focus-ring-offset) + var(--focus-ring-width)) var(--color-primary);
+}
+
+/* ============================================
+   DARK THEME COLORS (WCAG AA)
+   ============================================ */
+
+[data-theme="dark"] {
+  /* Primary palette - Cool cyan-blue */
+  --color-primary: #4dabf7;
+  --color-primary-hover: #74c0fc;
+  --color-primary-active: #339af0;
+  --color-primary-subtle: rgba(77, 171, 247, 0.10);
+  --color-primary-muted: rgba(77, 171, 247, 0.18);
+
+  /* Accent - Vibrant purple for highlights */
+  --color-accent: #9775fa;
+  --color-accent-hover: #b197fc;
+  --color-accent-subtle: rgba(151, 117, 250, 0.10);
+
+  /* Surface colors - Deeper, richer darks */
+  --color-bg: #0c0e12;
+  --color-bg-subtle: #13161b;
+  --color-bg-muted: #1c1f26;
+  --color-bg-emphasis: #e9ecef;
+  --color-bg-overlay: rgba(0, 0, 0, 0.75);
+  --color-bg-inset: #0f1115;
+
+  --color-surface: #13161b;
+  --color-surface-raised: #1c1f26;
+  --color-surface-sunken: #0c0e12;
+  --color-surface-overlay: #262b33;
+
+  /* Border - Subtle definition */
+  --color-border: #2c3038;
+  --color-border-muted: #1f232a;
+  --color-border-subtle: #181b21;
+  --color-border-strong: #5c6370;
+
+  /* Text - WCAG AA verified, good readability */
+  --color-text: #e6e9ed;           /* 14.5:1 on #0c0e12 */
+  --color-text-secondary: #a0a8b3; /* 6.8:1 on #0c0e12 */
+  --color-text-tertiary: #7c8590;  /* 4.5:1 on #0c0e12 */
+  --color-text-placeholder: #5c6370;
+  --color-text-disabled: #3d424a;
+  --color-text-inverse: #0c0e12;
+  --color-text-link: #4dabf7;
+
+  /* Semantic: Success - Softer green */
+  --color-success: #51cf66;
+  --color-success-emphasis: #40c057;
+  --color-success-bg: #112118;
+  --color-success-border: #2f9e44;
+
+  /* Semantic: Error - Vibrant but not harsh */
+  --color-error: #ff6b6b;
+  --color-error-emphasis: #fa5252;
+  --color-error-bg: #211414;
+  --color-error-border: #e03131;
+
+  /* Semantic: Warning - Warm yellow */
+  --color-warning: #fcc419;
+  --color-warning-emphasis: #fab005;
+  --color-warning-bg: #1f1a0e;
+  --color-warning-border: #f59f00;
+
+  /* Semantic: Info - Matches primary */
+  --color-info: #4dabf7;
+  --color-info-emphasis: #339af0;
+  --color-info-bg: #0e1620;
+  --color-info-border: #228be6;
+
+  /* === Component Tokens (Dark) === */
+  --jt-tab-bg: var(--color-bg-subtle);
+  --jt-tab-bg-hover: var(--color-bg-muted);
+  --jt-tab-bg-active: var(--color-surface-raised);
+  --jt-tab-border: var(--color-border);
+  --jt-tab-text: var(--color-text-secondary);
+  --jt-tab-text-hover: var(--color-text);
+  --jt-tab-text-active: var(--color-primary);
+
+  --jt-panel-bg: var(--color-surface);
+  --jt-panel-border: var(--color-border);
+
+  --jt-input-bg: var(--color-surface-sunken);
+  --jt-input-bg-hover: var(--color-surface);
+  --jt-input-border: var(--color-border);
+  --jt-input-border-hover: var(--color-border-strong);
+  --jt-input-border-focus: var(--color-primary);
+
+  --jt-code-bg: var(--color-surface-sunken);
+  --jt-code-border: var(--color-border);
+
+  --jt-badge-bg: var(--color-success-bg);
+  --jt-badge-text: var(--color-success);
+  --jt-badge-border: var(--color-success-border);
+
+  /* Elevation adjustments for dark */
+  --elevation-1: 0 1px 2px rgba(0, 0, 0, 0.2);
+  --elevation-2: 0 2px 4px rgba(0, 0, 0, 0.3);
+  --elevation-3: 0 4px 8px rgba(0, 0, 0, 0.4);
+  --elevation-4: 0 8px 16px rgba(0, 0, 0, 0.5);
+  --elevation-overlay: 0 12px 28px rgba(0, 0, 0, 0.6);
+
+  /* Focus ring for dark */
+  --jt-focus-ring: 0 0 0 var(--focus-ring-offset) var(--color-surface),
+                   0 0 0 calc(var(--focus-ring-offset) + var(--focus-ring-width)) var(--color-primary);
+
+  /* Override global heading colors for dark mode */
+  --rubrik-color: #e6edf3;
+  --primary-color: #58a6ff;
+}
+
+/* Global heading overrides for dark mode in JSON Toolbox */
+[data-theme="dark"] .rubrik,
+[data-theme="dark"] .rubrik--sektion,
+[data-theme="dark"] .rubrik--underrubrik {
+  color: var(--color-text);
+  text-shadow: none;
+}
+
+/* ============================================
+   TYPOGRAPHY HIERARCHY
+   ============================================ */
+
+/* Display */
+.text-display {
+  font-family: var(--font-sans);
+  font-size: var(--text-display);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+  color: var(--color-text);
+}
+
+/* Headings */
+.text-h1 {
+  font-family: var(--font-sans);
+  font-size: var(--text-heading-lg);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+  color: var(--color-text);
+}
+
+.text-h2 {
+  font-family: var(--font-sans);
+  font-size: var(--text-heading);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-snug);
+  color: var(--color-text);
+}
+
+.text-h3 {
+  font-family: var(--font-sans);
+  font-size: var(--text-heading-sm);
+  font-weight: var(--weight-medium);
+  line-height: var(--leading-snug);
+  color: var(--color-text);
+}
+
+/* Body text */
+.text-body {
+  font-family: var(--font-sans);
+  font-size: var(--text-body);
+  font-weight: var(--weight-normal);
+  line-height: var(--leading-normal);
+  color: var(--color-text);
+}
+
+.text-body-lg {
+  font-family: var(--font-sans);
+  font-size: var(--text-body-lg);
+  font-weight: var(--weight-normal);
+  line-height: var(--leading-normal);
+  color: var(--color-text);
+}
+
+/* Label */
+.text-label {
+  font-family: var(--font-sans);
+  font-size: var(--text-body);
+  font-weight: var(--weight-medium);
+  line-height: var(--leading-tight);
+  color: var(--color-text);
+}
+
+.text-label-sm {
+  font-family: var(--font-sans);
+  font-size: var(--text-body-sm);
+  font-weight: var(--weight-medium);
+  line-height: var(--leading-tight);
+  color: var(--color-text-secondary);
+}
+
+/* Caption / Meta */
+.text-caption {
+  font-family: var(--font-sans);
+  font-size: var(--text-caption);
+  font-weight: var(--weight-normal);
+  line-height: var(--leading-normal);
+  color: var(--color-text-tertiary);
+}
+
+.text-meta {
+  font-family: var(--font-sans);
+  font-size: var(--text-body-sm);
+  font-weight: var(--weight-normal);
+  line-height: var(--leading-normal);
+  color: var(--color-text-secondary);
+}
+
+/* Code */
+.text-code {
+  font-family: var(--font-mono);
+  font-size: var(--text-body);
+  font-weight: var(--weight-normal);
+  line-height: var(--leading-relaxed);
+  color: var(--color-text);
+}
+
+.text-code-sm {
+  font-family: var(--font-mono);
+  font-size: var(--text-body-sm);
+  font-weight: var(--weight-normal);
+  line-height: var(--leading-relaxed);
+  color: var(--color-text);
+}
+
+/* ============================================
+   MAIN CONTAINER
+   ============================================ */
+
+.json-toolbox {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  font-family: var(--font-sans);
+  font-size: var(--text-body);
+  line-height: var(--leading-normal);
+  color: var(--color-text);
+}
+
+/* ============================================
+   LAYOUT SECTION OVERRIDE (UX Layout Pass v1)
+   Reduce vertical whitespace for tool-first layout
+   ============================================ */
+
+.layout__sektion--compact {
+  padding-top: var(--space-md);
+  padding-bottom: var(--space-sm);
+}
+
+/* ============================================
+   COMPACT HEADER BAR (UX Layout Pass v1)
+   - Developer-grade: minimal, tool-first
+   - Title inline with privacy badge
+   ============================================ */
+
+.json-toolbox__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-lg);
+  padding: var(--space-md) var(--space-lg);
+  background: var(--color-surface);
+  border: var(--border-thin) solid var(--color-border-muted);
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+  border-bottom: none;
+}
+
+.json-toolbox__header-left {
+  display: flex;
+  align-items: center;
+  gap: var(--space-lg);
+}
+
+.json-toolbox__title {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  font-family: var(--font-sans);
+  font-size: var(--text-body-lg);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text);
+  margin: 0;
+  cursor: help;
+}
+
+.json-toolbox__title-icon {
+  width: 20px;
+  height: 20px;
+  color: var(--color-primary);
+  stroke-width: 2;
+}
+
+.json-toolbox__header-right {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+/* ============================================
+   PRIVACY BADGE
+   ============================================ */
+
+.json-toolbox__privacy {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-xs) var(--space-md);
+  background: var(--jt-badge-bg);
+  color: var(--jt-badge-text);
+  border: var(--border-thin) solid var(--jt-badge-border);
+  border-radius: var(--radius-full);
+  font-size: var(--text-caption);
+  font-weight: var(--weight-medium);
+  cursor: help;
+  transition: opacity var(--transition-fast);
+}
+
+.json-toolbox__privacy:hover {
+  opacity: 0.9;
+}
+
+.json-toolbox__privacy svg {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  stroke-width: 2;
+}
+
+/* ============================================
+   TAB NAVIGATION
+   ============================================ */
+
+.json-toolbox__tabs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: var(--space-sm) var(--space-md);
+  background: var(--jt-tab-bg);
+  border: var(--border-thin) solid var(--jt-tab-border);
+  border-top: none;
+  border-bottom: none;
+}
+
+/* Tab Group with Separators (UX Layout Pass v1) */
+.json-toolbox__tab-group {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.json-toolbox__tab-separator {
+  width: 1px;
+  height: 24px;
+  margin: 0 var(--space-sm);
+  background: var(--color-border);
+  opacity: 0.5;
+}
+
+.json-toolbox__tab {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  min-width: auto;
+  background: transparent;
+  border: var(--border-thin) solid transparent;
+  border-radius: var(--radius-md);
+  color: var(--jt-tab-text);
+  font-family: var(--font-sans);
+  font-size: var(--text-body-sm);
+  font-weight: var(--weight-medium);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  position: relative;
+}
+
+.json-toolbox__tab::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 50%;
+  transform: translateX(-50%) scaleX(0);
+  width: calc(100% - var(--space-xl));
+  height: 2px;
+  background: var(--color-primary);
+  transition: transform var(--transition-base);
+  border-radius: var(--radius-full);
+  transform-origin: center;
+}
+
+.json-toolbox__tab:hover {
+  background: var(--jt-tab-bg-hover);
+  color: var(--jt-tab-text-hover);
+}
+
+.json-toolbox__tab:focus {
+  outline: none;
+}
+
+.json-toolbox__tab:focus-visible {
+  box-shadow: var(--jt-focus-ring);
+}
+
+.json-toolbox__tab:active {
+  transform: scale(0.98);
+}
+
+.json-toolbox__tab--active {
+  background: var(--jt-tab-bg-active);
+  border-color: var(--jt-tab-border);
+  border-bottom-color: var(--jt-tab-bg-active);
+  color: var(--jt-tab-text-active);
+  font-weight: var(--weight-semibold);
+}
+
+.json-toolbox__tab--active::after {
+  transform: translateX(-50%) scaleX(1);
+}
+
+.json-toolbox__tab-icon {
+  width: 16px;
+  height: 16px;
+  stroke-width: 1.75;
+  flex-shrink: 0;
+  opacity: 0.85;
+  transition: opacity var(--transition-fast);
+}
+
+.json-toolbox__tab:hover .json-toolbox__tab-icon,
+.json-toolbox__tab--active .json-toolbox__tab-icon {
+  opacity: 1;
+}
+
+.json-toolbox__tab-label {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  line-height: var(--leading-tight);
+}
+
+/* ============================================
+   TAB PANELS
+   ============================================ */
+
+.json-toolbox__panels {
+  background: var(--jt-panel-bg);
+  border: var(--border-thin) solid var(--jt-panel-border);
+  border-top: none;
+  border-radius: 0;
+  min-height: 350px;
+}
+
+.json-toolbox__panel {
+  padding: var(--space-xl);
+}
+
+/* ============================================
+   PRIMARY ACTION BUTTON (UX Layout Pass v1)
+   Contextual action button that adapts per mode
+   ============================================ */
+
+.json-toolbox__primary-action {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-md) var(--space-xl);
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+  border: none;
+  border-radius: var(--radius-md);
+  font-family: var(--font-sans);
+  font-size: var(--text-body);
+  font-weight: var(--weight-semibold);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  box-shadow: var(--elevation-1);
+}
+
+.json-toolbox__primary-action:hover {
+  background: var(--color-primary-hover);
+  box-shadow: var(--elevation-2);
+}
+
+.json-toolbox__primary-action:active {
+  background: var(--color-primary-active);
+  transform: scale(0.98);
+}
+
+.json-toolbox__primary-action:focus-visible {
+  box-shadow: var(--jt-focus-ring);
+}
+
+.json-toolbox__primary-action svg {
+  width: 16px;
+  height: 16px;
+  stroke-width: 2;
+}
+
+.json-toolbox__primary-action--disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.json-toolbox__panel.hidden {
+  display: none;
+}
+
+.json-toolbox__panel:focus {
+  outline: none;
+}
+
+.json-toolbox__content {
+  margin-top: var(--space-xl);
+}
+
+/* ============================================
+   PLACEHOLDER (COMING SOON)
+   ============================================ */
+
+.json-toolbox__placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-5xl) var(--space-xl);
+  text-align: center;
+  color: var(--color-text-tertiary);
+}
+
+.json-toolbox__placeholder-icon {
+  width: 48px;
+  height: 48px;
+  margin-bottom: var(--space-xl);
+  opacity: 0.4;
+  stroke-width: 1.5;
+}
+
+.json-toolbox__placeholder-text {
+  font-size: var(--text-heading);
+  font-weight: var(--weight-semibold);
+  margin: 0 0 var(--space-md) 0;
+  color: var(--color-text-secondary);
+}
+
+.json-toolbox__placeholder-desc {
+  font-size: var(--text-body);
+  margin: 0;
+  color: var(--color-text-tertiary);
+}
+
+/* ============================================
+   STATUS BAR (VSCode-inspired)
+   Pinned at bottom of toolbox, compact, dense info
+   ============================================ */
+
+.json-toolbox__statusbar {
+  display: flex;
+  align-items: center;
+  height: 22px;
+  padding: 0 var(--space-md);
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+  font-family: var(--font-sans);
+  font-size: var(--text-caption);
+  border-radius: 0 0 var(--radius-xl) var(--radius-xl);
+  user-select: none;
+}
+
+[data-theme="dark"] .json-toolbox__statusbar {
+  background: var(--color-bg-muted);
+  color: var(--color-text-secondary);
+}
+
+.json-toolbox__statusbar-section {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.json-toolbox__statusbar-section--left {
+  flex: 0 0 auto;
+}
+
+.json-toolbox__statusbar-section--center {
+  flex: 1;
+  justify-content: center;
+}
+
+.json-toolbox__statusbar-section--right {
+  flex: 0 0 auto;
+}
+
+.json-toolbox__statusbar-item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  height: 100%;
+  padding: 0 var(--space-md);
+  background: transparent;
+  border: none;
+  color: inherit;
+  font: inherit;
+  font-size: var(--text-body-sm);
+  white-space: nowrap;
+}
+
+.json-toolbox__statusbar-item--clickable {
+  cursor: pointer;
+  transition: background-color var(--transition-fast);
+}
+
+.json-toolbox__statusbar-item--clickable:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+[data-theme="dark"] .json-toolbox__statusbar-item--clickable:hover {
+  background: var(--color-bg-subtle);
+}
+
+.json-toolbox__statusbar-item--clickable:focus {
+  outline: none;
+}
+
+.json-toolbox__statusbar-item--clickable:focus-visible {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+[data-theme="dark"] .json-toolbox__statusbar-item--clickable:focus-visible {
+  background: var(--color-primary-subtle);
+}
+
+.json-toolbox__statusbar-item--active {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .json-toolbox__statusbar-item--active {
+  background: var(--color-primary-subtle);
+  color: var(--color-primary);
+}
+
+.json-toolbox__statusbar-icon {
+  width: 14px;
+  height: 14px;
+  stroke-width: 1.75;
+  opacity: 0.9;
+}
+
+.json-toolbox__statusbar-icon--light {
+  display: inline;
+}
+
+.json-toolbox__statusbar-icon--dark {
+  display: none;
+}
+
+[data-theme="dark"] .json-toolbox__statusbar-icon--light {
+  display: none;
+}
+
+[data-theme="dark"] .json-toolbox__statusbar-icon--dark {
+  display: inline;
+}
+
+.json-toolbox__statusbar-kbd {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 var(--space-xs);
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: var(--weight-semibold);
+  line-height: 1;
+}
+
+[data-theme="dark"] .json-toolbox__statusbar-kbd {
+  background: var(--color-bg-subtle);
+  color: var(--color-text);
+}
+
+.json-toolbox__statusbar-divider {
+  width: 1px;
+  height: 14px;
+  background: rgba(255, 255, 255, 0.2);
+  margin: 0 var(--space-xs);
+}
+
+[data-theme="dark"] .json-toolbox__statusbar-divider {
+  background: var(--color-border);
+}
+
+.json-toolbox__statusbar-spacer {
+  flex: 1;
+}
+
+/* GitHub link in status bar */
+.json-toolbox__statusbar-item--github {
+  text-decoration: none;
+  color: inherit;
+  padding: 0 var(--space-sm);
+}
+
+.json-toolbox__statusbar-item--github svg {
+  display: block !important;
+  width: 14px;
+  height: 14px;
+  min-width: 14px;
+  min-height: 14px;
+  fill: currentColor;
+  opacity: 0.9;
+}
+
+/* ============================================
+   FOOTER
+   ============================================ */
+
+.json-toolbox__footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-lg);
+  padding-top: var(--space-md);
+  padding-bottom: var(--space-lg);
+}
+
+/* Shortcut hint moved to status bar - see .json-toolbox__statusbar */
+
+.json-toolbox__clear-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  background: transparent;
+  border: var(--border-thin) solid var(--jt-tab-border);
+  border-radius: var(--radius-md);
+  color: var(--color-text-tertiary);
+  font-family: var(--font-sans);
+  font-size: var(--text-body-sm);
+  font-weight: var(--weight-medium);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.json-toolbox__clear-btn:hover {
+  background: var(--jt-tab-bg-hover);
+  border-color: var(--color-border-strong);
+  color: var(--color-text);
+}
+
+.json-toolbox__clear-btn:focus-visible {
+  box-shadow: var(--jt-focus-ring);
+}
+
+.json-toolbox__clear-btn:active {
+  transform: scale(0.98);
+}
+
+.json-toolbox__clear-btn svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* ============================================
+   MODULE LAYOUT SYSTEM
+   ============================================ */
+
+/* Standard module container */
+.jt-module {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+}
+
+/* Module header */
+.jt-module__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-lg);
+  padding-bottom: var(--space-lg);
+  border-bottom: var(--border-thin) solid var(--color-border-subtle);
+}
+
+.jt-module__title {
+  font-size: var(--text-heading-sm);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.jt-module__title svg {
+  width: 18px;
+  height: 18px;
+  color: var(--color-text-secondary);
+}
+
+/* Module sections */
+.jt-module__section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.jt-module__label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  font-size: var(--text-body);
+  font-weight: var(--weight-medium);
+  color: var(--color-text);
+}
+
+.jt-module__label-hint {
+  font-size: var(--text-body-sm);
+  font-weight: var(--weight-normal);
+  color: var(--color-text-tertiary);
+}
+
+/* Module input area */
+.jt-module__input {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+/* Module options */
+.jt-module__options {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-lg);
+  padding: var(--space-lg);
+  background: var(--color-bg-subtle);
+  border-radius: var(--radius-lg);
+  border: var(--border-thin) solid var(--color-border-subtle);
+}
+
+.jt-module__options-group {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.jt-module__options-label {
+  font-size: var(--text-body-sm);
+  font-weight: var(--weight-medium);
+  color: var(--color-text-secondary);
+}
+
+/* Module actions */
+.jt-module__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+}
+
+.jt-module__actions--primary {
+  padding-top: var(--space-md);
+}
+
+.jt-module__actions--secondary {
+  padding-top: var(--space-sm);
+}
+
+/* Module output */
+.jt-module__output {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+/* Module stats badge */
+.jt-module__stats {
+  font-family: var(--font-mono);
+  font-size: var(--text-caption);
+  font-weight: var(--weight-medium);
+  color: var(--color-primary);
+  background: var(--color-primary-subtle);
+  padding: var(--space-xs) var(--space-md);
+  border-radius: var(--radius-md);
+}
+
+/* ============================================
+   FORM ELEMENTS
+   ============================================ */
+
+/* Textarea (Code areas) */
+.jt-textarea {
+  width: 100%;
+  min-height: 180px;
+  padding: var(--space-lg);
+  border: var(--border-thin) solid var(--jt-input-border);
+  border-radius: var(--radius-lg);
+  background: var(--jt-input-bg);
+  color: var(--color-text);
+  font-family: var(--font-mono);
+  font-size: var(--text-body);
+  line-height: var(--leading-relaxed);
+  resize: vertical;
+  transition: border-color var(--transition-fast),
+              background-color var(--transition-fast),
+              box-shadow var(--transition-fast);
+}
+
+.jt-textarea::placeholder {
+  color: var(--color-text-placeholder);
+}
+
+.jt-textarea:hover {
+  border-color: var(--jt-input-border-hover);
+}
+
+.jt-textarea:focus {
+  outline: none;
+  border-color: var(--jt-input-border-focus);
+  box-shadow: 0 0 0 3px var(--color-primary-muted);
+}
+
+.jt-textarea--output {
+  background: var(--jt-code-bg);
+}
+
+/* Select */
+.jt-select {
+  padding: var(--space-md) var(--space-lg);
+  border: var(--border-thin) solid var(--jt-input-border);
+  border-radius: var(--radius-md);
+  background: var(--jt-input-bg);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  font-size: var(--text-body);
+  cursor: pointer;
+  transition: border-color var(--transition-fast),
+              box-shadow var(--transition-fast);
+}
+
+.jt-select:hover {
+  border-color: var(--jt-input-border-hover);
+}
+
+.jt-select:focus {
+  outline: none;
+  border-color: var(--jt-input-border-focus);
+  box-shadow: 0 0 0 3px var(--color-primary-muted);
+}
+
+/* Input */
+.jt-input {
+  padding: var(--space-md) var(--space-lg);
+  border: var(--border-thin) solid var(--jt-input-border);
+  border-radius: var(--radius-md);
+  background: var(--jt-input-bg);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  font-size: var(--text-body);
+  transition: border-color var(--transition-fast),
+              box-shadow var(--transition-fast);
+}
+
+.jt-input::placeholder {
+  color: var(--color-text-placeholder);
+}
+
+.jt-input:hover {
+  border-color: var(--jt-input-border-hover);
+}
+
+.jt-input:focus {
+  outline: none;
+  border-color: var(--jt-input-border-focus);
+  box-shadow: 0 0 0 3px var(--color-primary-muted);
+}
+
+/* Checkbox */
+.jt-checkbox {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  cursor: pointer;
+  font-size: var(--text-body);
+  color: var(--color-text-secondary);
+  transition: color var(--transition-fast);
+}
+
+.jt-checkbox:hover {
+  color: var(--color-text);
+}
+
+.jt-checkbox input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--color-primary);
+  cursor: pointer;
+}
+
+/* ============================================
+   BUTTONS
+   ============================================ */
+
+/* Base button */
+.jt-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-md);
+  padding: var(--space-md) var(--space-xl);
+  border: var(--border-thin) solid transparent;
+  border-radius: var(--radius-md);
+  font-family: var(--font-sans);
+  font-size: var(--text-body);
+  font-weight: var(--weight-medium);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  user-select: none;
+}
+
+.jt-btn:focus {
+  outline: none;
+}
+
+.jt-btn:focus-visible {
+  box-shadow: var(--jt-focus-ring);
+}
+
+.jt-btn:active {
+  transform: scale(0.98);
+}
+
+.jt-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.jt-btn svg {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  stroke-width: 2;
+}
+
+/* Primary button */
+.jt-btn--primary {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: var(--color-text-inverse);
+}
+
+.jt-btn--primary:hover {
+  background: var(--color-primary-hover);
+  border-color: var(--color-primary-hover);
+}
+
+.jt-btn--primary:active {
+  background: var(--color-primary-active);
+  border-color: var(--color-primary-active);
+}
+
+/* Secondary button */
+.jt-btn--secondary {
+  background: transparent;
+  border-color: var(--color-border);
+  color: var(--color-text-secondary);
+}
+
+.jt-btn--secondary:hover {
+  background: var(--color-bg-subtle);
+  border-color: var(--color-border-strong);
+  color: var(--color-text);
+}
+
+/* Ghost button */
+.jt-btn--ghost {
+  background: transparent;
+  border-color: transparent;
+  color: var(--color-text-secondary);
+}
+
+.jt-btn--ghost:hover {
+  background: var(--color-bg-subtle);
+  color: var(--color-text);
+}
+
+/* Small button */
+.jt-btn--sm {
+  padding: var(--space-sm) var(--space-lg);
+  font-size: var(--text-body-sm);
+}
+
+.jt-btn--sm svg {
+  width: 12px;
+  height: 12px;
+}
+
+/* Button group */
+.jt-btn-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+}
+
+/* Legacy button classes (compatibility) */
+.json-toolbox__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-md);
+  padding: var(--space-md) var(--space-xl);
+  background: var(--color-primary);
+  border: var(--border-thin) solid var(--color-primary);
+  border-radius: var(--radius-md);
+  color: var(--color-text-inverse);
+  font-family: var(--font-sans);
+  font-size: var(--text-body);
+  font-weight: var(--weight-medium);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.json-toolbox__btn:hover {
+  background: var(--color-primary-hover);
+  border-color: var(--color-primary-hover);
+}
+
+.json-toolbox__btn:focus-visible {
+  box-shadow: var(--jt-focus-ring);
+}
+
+.json-toolbox__btn:active {
+  transform: scale(0.98);
+}
+
+.json-toolbox__btn svg {
+  width: 14px;
+  height: 14px;
+}
+
+.json-toolbox__btn--secondary {
+  background: transparent;
+  border-color: var(--color-border);
+  color: var(--color-text-secondary);
+}
+
+.json-toolbox__btn--secondary:hover {
+  background: var(--color-bg-subtle);
+  border-color: var(--color-border-strong);
+  color: var(--color-text);
+}
+
+/* Primary Action Pill (UX Layout Pass v1) */
+.json-toolbox__btn--primary {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: var(--color-text-inverse);
+  font-weight: var(--weight-semibold);
+  padding: var(--space-md) var(--space-2xl);
+  box-shadow: var(--elevation-1);
+}
+
+.json-toolbox__btn--primary:hover {
+  background: var(--color-primary-hover);
+  border-color: var(--color-primary-hover);
+  box-shadow: var(--elevation-2);
+}
+
+.json-toolbox__btn--primary:active {
+  background: var(--color-primary-active);
+  box-shadow: var(--elevation-1);
+}
+
+/* ============================================
+   STATUS MESSAGES
+   ============================================ */
+
+.jt-status {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-lg) var(--space-xl);
+  border-radius: var(--radius-lg);
+  font-size: var(--text-body);
+  font-weight: var(--weight-medium);
+  border: var(--border-thin) solid;
+  animation: statusFadeIn var(--duration-base) var(--ease-out);
+}
+
+@keyframes statusFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.jt-status svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+.jt-status--success {
+  background: var(--color-success-bg);
+  color: var(--color-success);
+  border-color: var(--color-success-border);
+}
+
+.jt-status--error {
+  background: var(--color-error-bg);
+  color: var(--color-error);
+  border-color: var(--color-error-border);
+}
+
+.jt-status--warning {
+  background: var(--color-warning-bg);
+  color: var(--color-warning);
+  border-color: var(--color-warning-border);
+}
+
+.jt-status--info {
+  background: var(--color-info-bg);
+  color: var(--color-info);
+  border-color: var(--color-info-border);
+}
+
+/* Legacy status classes */
+.json-toolbox__status {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-lg) var(--space-xl);
+  margin-top: var(--space-xl);
+  border-radius: var(--radius-lg);
+  font-size: var(--text-body);
+  font-weight: var(--weight-medium);
+}
+
+.json-toolbox__status svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+.json-toolbox__status--success {
+  background: var(--color-success-bg);
+  color: var(--color-success);
+  border: var(--border-thin) solid var(--color-success-border);
+}
+
+.json-toolbox__status--error {
+  background: var(--color-error-bg);
+  color: var(--color-error);
+  border: var(--border-thin) solid var(--color-error-border);
+}
+
+.json-toolbox__status--info {
+  background: var(--color-info-bg);
+  color: var(--color-info);
+  border: var(--border-thin) solid var(--color-info-border);
+}
+
+.json-toolbox__status--warning {
+  background: var(--color-warning-bg);
+  color: var(--color-warning);
+  border: var(--border-thin) solid var(--color-warning-border);
+}
+
+/* Module status (inline) */
+.module-status {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-md) var(--space-lg);
+  border-radius: var(--radius-md);
+  font-size: var(--text-body);
+  min-height: 2rem;
+  animation: statusFadeIn var(--duration-base) var(--ease-out);
+}
+
+.module-status svg {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+
+.status-success {
+  background: var(--color-success-bg);
+  color: var(--color-success);
+}
+
+.status-error {
+  background: var(--color-error-bg);
+  color: var(--color-error);
+}
+
+.status-info {
+  background: var(--color-info-bg);
+  color: var(--color-info);
+}
+
+.status-warning {
+  background: var(--color-warning-bg);
+  color: var(--color-warning);
+}
+
+/* ============================================
+   MODAL (KEYBOARD SHORTCUTS)
+   ============================================ */
+
+.jt-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--color-bg-overlay);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  opacity: 0;
+  transition: opacity var(--transition-slow);
+}
+
+.jt-modal-overlay--visible {
+  opacity: 1;
+}
+
+.jt-modal {
+  background: var(--color-surface);
+  border: var(--border-thin) solid var(--color-border);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--elevation-overlay);
+  max-width: 520px;
+  width: 90%;
+  max-height: 85vh;
+  overflow: hidden;
+  transform: scale(0.96) translateY(8px);
+  transition: transform var(--transition-slow);
+}
+
+.jt-modal-overlay--visible .jt-modal {
+  transform: scale(1) translateY(0);
+}
+
+.jt-modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-xl) var(--space-2xl);
+  border-bottom: var(--border-thin) solid var(--color-border);
+  background: var(--color-bg-subtle);
+}
+
+.jt-modal__header h3 {
+  margin: 0;
+  font-size: var(--text-heading-sm);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text);
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.jt-modal__header h3 svg {
+  width: 18px;
+  height: 18px;
+  color: var(--color-text-secondary);
+  stroke-width: 2;
+}
+
+.jt-modal__close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-md);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.jt-modal__close:hover {
+  background: var(--color-bg-muted);
+  color: var(--color-text);
+}
+
+.jt-modal__close:focus-visible {
+  box-shadow: var(--jt-focus-ring);
+}
+
+.jt-modal__close svg {
+  width: 16px;
+  height: 16px;
+}
+
+.jt-modal__body {
+  padding: var(--space-2xl);
+  overflow-y: auto;
+  max-height: calc(85vh - 140px);
+}
+
+.jt-modal__footer {
+  padding: var(--space-lg) var(--space-2xl);
+  border-top: var(--border-thin) solid var(--color-border);
+  background: var(--color-bg-subtle);
+  text-align: center;
+}
+
+.jt-modal__footer small {
+  font-size: var(--text-caption);
+  color: var(--color-text-tertiary);
+}
+
+/* Shortcuts List - VSCode style */
+.jt-shortcuts-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.jt-shortcuts-group {
+  margin-bottom: var(--space-xl);
+}
+
+.jt-shortcuts-group:last-child {
+  margin-bottom: 0;
+}
+
+.jt-shortcuts-group__title {
+  font-size: var(--text-caption);
+  font-weight: var(--weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+  color: var(--color-text-tertiary);
+  margin-bottom: var(--space-md);
+  padding-bottom: var(--space-sm);
+  border-bottom: var(--border-thin) solid var(--color-border-subtle);
+}
+
+.jt-shortcut-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xl);
+  padding: var(--space-md) var(--space-lg);
+  border-radius: var(--radius-md);
+  transition: background var(--transition-fast);
+}
+
+.jt-shortcut-row:hover {
+  background: var(--color-bg-subtle);
+}
+
+.jt-shortcut-row kbd {
+  min-width: 100px;
+  justify-content: center;
+}
+
+.jt-shortcut-row span {
+  flex: 1;
+  color: var(--color-text-secondary);
+  font-size: var(--text-body);
+}
+
+.jt-shortcut-row svg {
+  width: 14px;
+  height: 14px;
+  color: var(--color-text-tertiary);
+  margin-right: var(--space-md);
+}
+
+/* Keyboard Key */
+kbd {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  height: 24px;
+  padding: 0 var(--space-md);
+  background: linear-gradient(180deg, var(--color-bg-subtle) 0%, var(--color-bg-muted) 100%);
+  border: var(--border-thin) solid var(--color-border);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
+  font-size: var(--text-caption);
+  font-weight: var(--weight-medium);
+  color: var(--color-text);
+  box-shadow: 0 2px 0 var(--color-border),
+              inset 0 -1px 0 var(--color-border-muted);
+}
+
+[data-theme="dark"] kbd {
+  background: linear-gradient(180deg, var(--color-surface-raised) 0%, var(--color-surface-overlay) 100%);
+}
+
+/* ============================================
+   DRAG & DROP
+   ============================================ */
+
+.drag-over {
+  border-color: var(--color-primary) !important;
+  background: var(--color-primary-subtle) !important;
+  box-shadow: 0 0 0 3px var(--color-primary-muted) !important;
+}
+
+/* ============================================
+   LOADING SPINNER
+   ============================================ */
+
+.jt-loading {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: var(--radius-full);
+  animation: jt-spin 0.75s linear infinite;
+}
+
+@keyframes jt-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ============================================
+   COPY ANIMATION
+   ============================================ */
+
+@keyframes copyPulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+  100% { transform: scale(1); }
+}
+
+.copy-success {
+  animation: copyPulse var(--duration-base) var(--ease-out);
+}
+
+/* ============================================
+   CODE INPUT/OUTPUT AREAS (Legacy)
+   ============================================ */
+
+.code-input,
+.code-output {
+  width: 100%;
+  min-height: 200px;
+  padding: var(--space-lg);
+  border: var(--border-thin) solid var(--jt-code-border);
+  border-radius: var(--radius-lg);
+  background: var(--jt-code-bg);
+  color: var(--color-text);
+  font-family: var(--font-mono);
+  font-size: var(--text-body);
+  line-height: var(--leading-relaxed);
+  resize: vertical;
+  transition: border-color var(--transition-fast),
+              box-shadow var(--transition-fast);
+}
+
+.code-input::placeholder,
+.code-output::placeholder {
+  color: var(--color-text-placeholder);
+}
+
+.code-input:hover,
+.code-output:hover {
+  border-color: var(--jt-input-border-hover);
+}
+
+.code-input:focus,
+.code-output:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-primary-muted);
+}
+
+.code-output {
+  background: var(--color-surface-sunken);
+}
+
+/* ============================================
+   COMMON FORM ELEMENTS (Legacy)
+   ============================================ */
+
+.form-select,
+.form-input {
+  padding: var(--space-md) var(--space-lg);
+  border: var(--border-thin) solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  font-size: var(--text-body);
+  transition: border-color var(--transition-fast),
+              box-shadow var(--transition-fast);
+}
+
+.form-select:focus,
+.form-input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-primary-muted);
+}
+
+.form-select::placeholder,
+.form-input::placeholder {
+  color: var(--color-text-placeholder);
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  cursor: pointer;
+  font-size: var(--text-body);
+  color: var(--color-text-secondary);
+  transition: color var(--transition-fast);
+}
+
+.checkbox-label:hover {
+  color: var(--color-text);
+}
+
+.checkbox-label input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--color-primary);
+}
+
+/* ============================================
+   COMMON BUTTONS (Legacy)
+   ============================================ */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-md);
+  padding: var(--space-md) var(--space-xl);
+  border: var(--border-thin) solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  color: var(--color-text-secondary);
+  font-family: var(--font-sans);
+  font-size: var(--text-body);
+  font-weight: var(--weight-medium);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.btn:hover {
+  background: var(--jt-tab-bg-hover);
+  border-color: var(--color-border-strong);
+  color: var(--color-text);
+}
+
+.btn:focus-visible {
+  box-shadow: var(--jt-focus-ring);
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+.btn svg {
+  width: 14px;
+  height: 14px;
+}
+
+.btn-sm {
+  padding: var(--space-sm) var(--space-lg);
+  font-size: var(--text-body-sm);
+}
+
+.btn-sm svg {
+  width: 12px;
+  height: 12px;
+}
+
+.btn-primary {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: var(--color-text-inverse);
+}
+
+.btn-primary:hover {
+  background: var(--color-primary-hover);
+  border-color: var(--color-primary-hover);
+  color: var(--color-text-inverse);
+}
+
+.btn-secondary {
+  background: transparent;
+}
+
+.btn-danger {
+  background: var(--color-error);
+  border-color: var(--color-error);
+  color: var(--color-text-inverse);
+}
+
+.btn-danger:hover {
+  background: var(--color-error-emphasis);
+  border-color: var(--color-error-emphasis);
+  color: var(--color-text-inverse);
+}
+
+/* ============================================
+   GRID LAYOUTS
+   ============================================ */
+
+.module-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-xl);
+}
+
+@media (max-width: 768px) {
+  .module-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ============================================
+   LUCIDE ICON DEFAULTS
+   ============================================ */
+
+.lucide {
+  width: 1em;
+  height: 1em;
+  stroke-width: 2;
+  stroke: currentColor;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vertical-align: middle;
+}
+
+/* Icon sizes */
+.icon-xs { width: 12px; height: 12px; }
+.icon-sm { width: 14px; height: 14px; }
+.icon-md { width: 16px; height: 16px; }
+.icon-lg { width: 18px; height: 18px; }
+.icon-xl { width: 20px; height: 20px; }
+.icon-2xl { width: 24px; height: 24px; }
+
+/* ============================================
+   RESPONSIVE: TABLET
+   ============================================ */
+
+@media (max-width: 768px) {
+  .json-toolbox__tabs {
+    gap: var(--space-xs);
+    padding: var(--space-md);
+  }
+
+  .json-toolbox__tab {
+    flex: 1 1 calc(33.333% - 4px);
+    min-width: 0;
+    padding: var(--space-md) var(--space-sm);
+  }
+
+  .json-toolbox__tab-icon {
+    width: 16px;
+    height: 16px;
+  }
+
+  .json-toolbox__tab-label {
+    font-size: 0.625rem;
+  }
+
+  .json-toolbox__panel {
+    padding: var(--space-xl);
+  }
+
+  .json-toolbox__panels {
+    min-height: 300px;
+  }
+
+  .jt-modal {
+    width: 95%;
+    max-height: 90vh;
+  }
+
+  .jt-modal__body {
+    max-height: calc(90vh - 140px);
+  }
+}
+
+/* ============================================
+   RESPONSIVE: MOBILE
+   ============================================ */
+
+@media (max-width: 480px) {
+  .json-toolbox__tabs {
+    gap: var(--space-xs);
+    padding: var(--space-sm);
+  }
+
+  .json-toolbox__tab {
+    flex: 1 1 calc(33.333% - 2px);
+    padding: var(--space-md) var(--space-sm);
+    gap: var(--space-xs);
+  }
+
+  .json-toolbox__tab-icon {
+    width: 14px;
+    height: 14px;
+  }
+
+  .json-toolbox__tab-label {
+    font-size: 0.5625rem;
+  }
+
+  .json-toolbox__panel {
+    padding: var(--space-lg);
+  }
+
+  .json-toolbox__privacy {
+    font-size: var(--text-caption);
+    padding: var(--space-md) var(--space-lg);
+  }
+
+  .jt-module__options {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .jt-btn-group,
+  .jt-module__actions {
+    flex-direction: column;
+  }
+
+  .jt-btn-group .jt-btn,
+  .jt-module__actions .json-toolbox__btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* ============================================
+   UTILITY CLASSES
+   ============================================ */
+
+.hidden {
+  display: none !important;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Text utilities */
+.text-center { text-align: center; }
+.text-left { text-align: left; }
+.text-right { text-align: right; }
+
+/* Spacing utilities */
+.mt-0 { margin-top: 0; }
+.mt-sm { margin-top: var(--space-sm); }
+.mt-md { margin-top: var(--space-md); }
+.mt-lg { margin-top: var(--space-lg); }
+.mt-xl { margin-top: var(--space-xl); }
+
+.mb-0 { margin-bottom: 0; }
+.mb-sm { margin-bottom: var(--space-sm); }
+.mb-md { margin-bottom: var(--space-md); }
+.mb-lg { margin-bottom: var(--space-lg); }
+.mb-xl { margin-bottom: var(--space-xl); }
+
+/* Flex utilities */
+.flex { display: flex; }
+.flex-col { flex-direction: column; }
+.items-center { align-items: center; }
+.justify-between { justify-content: space-between; }
+.gap-sm { gap: var(--space-sm); }
+.gap-md { gap: var(--space-md); }
+.gap-lg { gap: var(--space-lg); }
+.gap-xl { gap: var(--space-xl); }
+
+/* ============================================
+   DEVELOPER ERGONOMICS PASS v1
+   Target: Pro-grade developer tool density
+   Goals:
+   - Work area above fold (1366x768 + 1920x1080)
+   - Pipeline flow (Input → Options → Action → Output)
+   - Minimal chrome, maximal workspace
+   - Zero-seconds onboarding for developers
+   ============================================ */
+
+/* Hide redundant section headers - tab labels are sufficient */
+.json-toolbox__panel > .rubrik,
+.json-toolbox__panel > .rubrik--underrubrik {
+  display: none;
+}
+
+/* Tighter panel padding for density */
+.json-toolbox__panel {
+  padding: var(--space-lg) var(--space-xl);
+}
+
+/* Reduce min-height to allow above-fold fit */
+.json-toolbox__panels {
+  min-height: 280px;
+}
+
+/* Remove content margin-top since section header is hidden */
+.json-toolbox__content {
+  margin-top: 0;
+}
+
+/* Tighter module gaps for density */
+.jt-module {
+  gap: var(--space-lg);
+}
+
+/* Compact module headers */
+.jt-module__header {
+  padding-bottom: var(--space-md);
+}
+
+/* Smaller module section spacing */
+.jt-module__section {
+  margin-bottom: var(--space-lg);
+}
+
+/* ============================================
+   PIPELINE FLOW LAYOUT
+   Input → Options → Action → Output pattern
+   ============================================ */
+
+/* Two-column pipeline layout for larger screens */
+.jt-pipeline {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto auto;
+  gap: var(--space-lg);
+}
+
+.jt-pipeline__input {
+  grid-column: 1;
+  grid-row: 1 / 3;
+}
+
+.jt-pipeline__options {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.jt-pipeline__actions {
+  grid-column: 2;
+  grid-row: 2;
+  align-self: start;
+}
+
+.jt-pipeline__output {
+  grid-column: 1 / 3;
+  grid-row: 3;
+}
+
+/* Single column on narrow screens */
+@media (max-width: 768px) {
+  .jt-pipeline {
+    grid-template-columns: 1fr;
+  }
+  
+  .jt-pipeline__input,
+  .jt-pipeline__options,
+  .jt-pipeline__actions,
+  .jt-pipeline__output {
+    grid-column: 1;
+    grid-row: auto;
+  }
+}
+
+/* ============================================
+   COMPACT TEXTAREA HEIGHTS
+   Fit above fold while remaining usable
+   ============================================ */
+
+/* Default compact textarea height */
+.jt-textarea--compact {
+  min-height: 120px;
+  max-height: 180px;
+  resize: vertical;
+}
+
+/* Taller textarea for primary work area */
+.jt-textarea--primary {
+  min-height: 160px;
+  max-height: 240px;
+  resize: vertical;
+}
+
+/* Side-by-side textareas (diff, etc.) */
+.jt-textarea--split {
+  min-height: 140px;
+  max-height: 200px;
+  resize: vertical;
+}
+
+/* ============================================
+   COMPACT ACTION BAR
+   Primary action prominent, secondaries subtle
+   ============================================ */
+
+.jt-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  flex-wrap: wrap;
+}
+
+.jt-actions--compact {
+  gap: var(--space-sm);
+}
+
+/* Primary action pill */
+.jt-action-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-lg);
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+  border: none;
+  border-radius: var(--radius-md);
+  font-family: var(--font-sans);
+  font-size: var(--text-body);
+  font-weight: var(--weight-semibold);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  box-shadow: var(--elevation-1);
+}
+
+.jt-action-primary:hover {
+  background: var(--color-primary-hover);
+  box-shadow: var(--elevation-2);
+}
+
+.jt-action-primary:active {
+  transform: scale(0.98);
+}
+
+.jt-action-primary:focus-visible {
+  box-shadow: var(--jt-focus-ring);
+}
+
+.jt-action-primary svg {
+  width: 16px;
+  height: 16px;
+  stroke-width: 2;
+}
+
+/* Secondary action (ghost) */
+.jt-action-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  background: transparent;
+  color: var(--color-text-secondary);
+  border: var(--border-thin) solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-family: var(--font-sans);
+  font-size: var(--text-body-sm);
+  font-weight: var(--weight-medium);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.jt-action-secondary:hover {
+  background: var(--color-bg-subtle);
+  border-color: var(--color-border-strong);
+  color: var(--color-text);
+}
+
+.jt-action-secondary:focus-visible {
+  box-shadow: var(--jt-focus-ring);
+}
+
+.jt-action-secondary svg {
+  width: 14px;
+  height: 14px;
+  stroke-width: 1.75;
+}
+
+/* Icon-only action button */
+.jt-action-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  background: transparent;
+  color: var(--color-text-tertiary);
+  border: var(--border-thin) solid transparent;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.jt-action-icon:hover {
+  background: var(--color-bg-subtle);
+  color: var(--color-text);
+  border-color: var(--color-border);
+}
+
+.jt-action-icon:focus-visible {
+  box-shadow: var(--jt-focus-ring);
+}
+
+.jt-action-icon svg {
+  width: 16px;
+  height: 16px;
+  stroke-width: 1.75;
+}
+
+/* ============================================
+   COMPACT OPTIONS ROW
+   Inline options for density
+   ============================================ */
+
+.jt-options-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-lg);
+  padding: var(--space-md) 0;
+}
+
+.jt-option {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  font-size: var(--text-body-sm);
+  color: var(--color-text-secondary);
+}
+
+.jt-option label {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  cursor: pointer;
+}
+
+.jt-option select,
+.jt-option input[type="text"] {
+  padding: var(--space-xs) var(--space-sm);
+  font-size: var(--text-body-sm);
+  border: var(--border-thin) solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  color: var(--color-text);
+}
+
+.jt-option select:focus,
+.jt-option input[type="text"]:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+/* Checkbox styling */
+.jt-option input[type="checkbox"] {
+  width: 14px;
+  height: 14px;
+  margin: 0;
+  accent-color: var(--color-primary);
+}
+
+/* ============================================
+   COMPACT HEADER BAR REFINEMENT
+   Even more minimal for developer focus
+   ============================================ */
+
+/* Slightly smaller header padding */
+.json-toolbox__header {
+  padding: var(--space-sm) var(--space-lg);
+}
+
+/* Smaller title font */
+.json-toolbox__title {
+  font-size: var(--text-body);
+}
+
+/* Smaller title icon */
+.json-toolbox__title-icon {
+  width: 18px;
+  height: 18px;
+}
+
+/* ============================================
+   DENSITY ADJUSTMENTS FOR MODULES
+   Applied to individual module CSS
+   ============================================ */
+
+/* CSV/XML/YAML direction toggles - more compact */
+[class*="-module__direction"] {
+  gap: var(--space-xs);
+  margin-bottom: var(--space-md);
+}
+
+[class*="-module__dir-btn"] {
+  padding: var(--space-xs) var(--space-md);
+  font-size: var(--text-body-sm);
+}
+
+/* Module option rows - tighter */
+[class*="-module__options"] {
+  gap: var(--space-md);
+  margin-bottom: var(--space-md);
+}
+
+[class*="-module__option"] {
+  gap: var(--space-sm);
+}
+
+/* Module action rows - tighter */
+[class*="-module__actions"] {
+  gap: var(--space-sm);
+  margin-bottom: var(--space-md);
+}
+
+/* Module textareas - constrained height */
+[class*="-module__textarea"] {
+  min-height: 140px;
+  max-height: 200px;
+}
+
+/* Module labels - smaller, less prominent */
+[class*="-module__label"] {
+  margin-bottom: var(--space-sm);
+}
+
+[class*="-module__label-text"] {
+  font-size: var(--text-body-sm);
+  font-weight: var(--weight-medium);
+}
+
+/* ============================================
+   ABOVE-FOLD OPTIMIZATION
+   Ensure primary workflow fits on 1366x768
+   ============================================ */
+
+@media (max-height: 768px) {
+  .json-toolbox__panels {
+    min-height: 240px;
+  }
+  
+  [class*="-module__textarea"] {
+    min-height: 100px;
+    max-height: 160px;
+  }
+}
+
+@media (min-height: 900px) {
+  .json-toolbox__panels {
+    min-height: 320px;
+  }
+  
+  [class*="-module__textarea"] {
+    min-height: 160px;
+    max-height: 280px;
+  }
+}
