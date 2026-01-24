@@ -1,10 +1,14 @@
 /**
  * JSON Toolbox - Self-Hosted Analytics Module
- * Version: 1.0.0
+ * Version: 2.0.0
  * 
  * Privacy-first analytics using self-hosted Matomo.
  * 
+ * IMPORTANT: Analytics are OFF by default (opt-in model).
+ * To enable analytics, set window.JSON_TOOLBOX_ANALYTICS = true BEFORE this script loads.
+ * 
  * Configuration:
+ * - Default OFF (opt-in required)
  * - Cookieless tracking (no client-side cookies)
  * - No user identifiers
  * - No fingerprinting
@@ -12,17 +16,39 @@
  * - No third-party calls
  * - Self-hosted only (stats.mackan.eu)
  * 
- * Purpose:
+ * Compliance Mode:
+ * - When window.JSON_TOOLBOX_COMPLIANCE = true, analytics are completely disabled
+ * - No network calls, no tracking, no-op API only
+ * 
+ * Purpose (when enabled):
  * - Aggregate feature usage (which tabs/functions are used)
  * - Error analysis (what operations fail)
  * - Quality improvement (no profiling, no personalization)
- * 
- * This module can be disabled entirely for air-gapped deployments
- * by setting window.ANALYTICS_DISABLED = true before loading.
  */
 
 (function() {
   'use strict';
+
+  // ============================================
+  // No-op API (used when analytics disabled)
+  // ============================================
+  const NOOP_API = {
+    trackPageView: () => {},
+    trackEvent: () => {},
+    trackTabChange: () => {},
+    trackAction: () => {},
+    trackError: () => {},
+    trackSuccess: () => {},
+    trackThemeChange: () => {},
+    trackLanguageChange: () => {},
+    trackModal: () => {},
+    trackDownload: () => {},
+    trackCopy: () => {},
+    trackShortcut: () => {},
+    isEnabled: () => false,
+    enable: enableAnalytics,
+    disable: disableAnalytics
+  };
 
   // ============================================
   // Configuration
@@ -30,34 +56,39 @@
   const CONFIG = {
     url: 'https://stats.mackan.eu/',
     siteId: 1,
-    enabled: true,
+    enabled: false,  // Default OFF
     debug: false
   };
 
   // ============================================
-  // Air-gapped / Disabled Check
+  // Compliance Mode Check (highest priority)
   // ============================================
   
-  // Allow complete disable for air-gapped environments
-  if (window.ANALYTICS_DISABLED === true) {
-    console.info('[Analytics] Disabled via ANALYTICS_DISABLED flag');
-    window.JSONToolboxAnalytics = {
-      trackPageView: () => {},
-      trackEvent: () => {},
-      trackTabChange: () => {},
-      trackAction: () => {},
-      trackError: () => {},
-      trackSuccess: () => {},
-      trackThemeChange: () => {},
-      trackLanguageChange: () => {},
-      isEnabled: () => false
-    };
+  if (window.JSON_TOOLBOX_COMPLIANCE === true) {
+    console.info('[Analytics] Compliance mode active - analytics completely disabled');
+    window.JSONToolboxAnalytics = NOOP_API;
+    window.JTA = NOOP_API;
     return;
   }
 
   // ============================================
-  // Matomo Initialization (Cookieless Mode)
+  // Default-OFF Check (opt-in model)
   // ============================================
+  
+  // Analytics are OFF by default. User must explicitly enable.
+  if (window.JSON_TOOLBOX_ANALYTICS !== true) {
+    console.info('[Analytics] Analytics disabled (default-off). Set JSON_TOOLBOX_ANALYTICS=true to enable.');
+    window.JSONToolboxAnalytics = NOOP_API;
+    window.JTA = NOOP_API;
+    return;
+  }
+
+  // ============================================
+  // Analytics Enabled - Initialize Matomo
+  // ============================================
+  
+  console.info('[Analytics] Analytics enabled by user opt-in');
+  CONFIG.enabled = true;
   
   var _paq = window._paq = window._paq || [];
   
@@ -136,6 +167,38 @@
     UI: 'ui',
     ERROR: 'error'
   };
+
+  // ============================================
+  // Enable/Disable Functions
+  // ============================================
+  
+  /**
+   * Enable analytics (requires page reload to take effect)
+   */
+  function enableAnalytics() {
+    if (window.JSON_TOOLBOX_COMPLIANCE) {
+      console.warn('[Analytics] Cannot enable analytics in compliance mode');
+      return false;
+    }
+    try {
+      localStorage.setItem('json-toolbox-analytics-enabled', 'true');
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  /**
+   * Disable analytics (requires page reload to take effect)
+   */
+  function disableAnalytics() {
+    try {
+      localStorage.removeItem('json-toolbox-analytics-enabled');
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
 
   // ============================================
   // Public API
@@ -280,7 +343,9 @@
     trackDownload,
     trackCopy,
     trackShortcut,
-    isEnabled
+    isEnabled,
+    enable: enableAnalytics,
+    disable: disableAnalytics
   };
 
   // Shorthand alias

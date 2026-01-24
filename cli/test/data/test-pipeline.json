@@ -1,0 +1,11 @@
+{
+  "name": "employee-filter-sort",
+  "version": "1.0.0",
+  "description": "Filter active employees and sort by salary",
+  "steps": [
+    { "operator": "csv.parse", "params": { "header": true } },
+    { "operator": "transform.filter", "params": { "key": "active", "value": "true" } },
+    { "operator": "transform.sort", "params": { "key": "salary", "order": "desc", "numeric": true } },
+    { "operator": "json.stringify", "params": { "indent": 2 } }
+  ]
+}

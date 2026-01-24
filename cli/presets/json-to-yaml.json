@@ -1,0 +1,27 @@
+{
+  "name": "json-to-yaml",
+  "version": "1.0.0",
+  "description": "Convert JSON to YAML format",
+  "steps": [
+    {
+      "id": "parse",
+      "operator": "json.parse",
+      "params": {}
+    },
+    {
+      "id": "convert",
+      "operator": "yaml.stringify",
+      "params": {
+        "indent": 2
+      }
+    }
+  ],
+  "input": {
+    "type": "string",
+    "format": "json"
+  },
+  "output": {
+    "type": "string",
+    "format": "yaml"
+  }
+}

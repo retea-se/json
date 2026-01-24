@@ -1,0 +1,71 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://mackan.eu/tools/json/cli/manifest-schema.json",
+  "title": "JSON Toolbox Pipeline Manifest",
+  "description": "Schema for jsontb pipeline manifest files",
+  "type": "object",
+  "required": ["name", "steps"],
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Pipeline identifier",
+      "minLength": 1
+    },
+    "version": {
+      "type": "string",
+      "description": "Semantic version of the pipeline",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "description": {
+      "type": "string",
+      "description": "Human-readable description"
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Arbitrary key-value metadata",
+      "additionalProperties": true
+    },
+    "steps": {
+      "type": "array",
+      "description": "Ordered list of operator steps",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["operator"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Optional step identifier for debugging"
+          },
+          "operator": {
+            "type": "string",
+            "description": "Operator identifier (e.g., csv.parse, json.format)",
+            "pattern": "^[a-z]+\\.[a-zA-Z]+$"
+          },
+          "params": {
+            "type": "object",
+            "description": "Operator parameters",
+            "additionalProperties": true
+          },
+          "onError": {
+            "type": "string",
+            "description": "Error handling behavior",
+            "enum": ["stop", "continue"],
+            "default": "stop"
+          }
+        }
+      }
+    }
+  },
+  "examples": [
+    {
+      "name": "csv-to-json",
+      "version": "1.0.0",
+      "description": "Parse CSV to JSON",
+      "steps": [
+        { "operator": "csv.parse", "params": { "header": true } },
+        { "operator": "json.stringify", "params": { "indent": 2 } }
+      ]
+    }
+  ]
+}

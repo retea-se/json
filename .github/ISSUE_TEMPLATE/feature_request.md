@@ -1,28 +1,62 @@
 ---
 name: Feature Request
-about: Suggest a new feature
-title: '[FEAT] '
+about: Suggest a new feature or improvement
+title: '[FEATURE] '
 labels: enhancement
 assignees: ''
 ---
 
-## Description
-Brief description of the feature.
+## Feature Description
+
+A clear description of the feature you'd like.
+
+## Category
+
+- [ ] New Operator
+- [ ] Pipeline Enhancement
+- [ ] CLI Feature
+- [ ] Browser UI
+- [ ] Documentation
+- [ ] Other: ___
 
 ## Use Case
-Why is this feature needed? What problem does it solve?
+
+Describe the problem you're trying to solve or the workflow you want to enable.
 
 ## Proposed Solution
-How should it work?
+
+How you think this could work.
+
+## Example
+
+```bash
+# Example usage
+jsontb exec new.operator --param value < input.json
+```
+
+## Input/Output Example
+
+**Input:**
+```json
+// Example input
+```
+
+**Expected Output:**
+```json
+// Expected output
+```
 
 ## Alternatives Considered
+
 Other approaches you've thought about.
 
-## Constraints
-Remember JSON Toolbox principles:
-- [ ] Local-only execution (no server calls)
-- [ ] No external dependencies
-- [ ] No telemetry
-- [ ] Deterministic output
+## Additional Context
 
-Does your feature comply with these?
+Any other relevant information, links, or references.
+
+## Would you be willing to contribute this?
+
+- [ ] Yes, I'd like to implement this
+- [ ] I can help with testing
+- [ ] I can help with documentation
+- [ ] No, just a suggestion

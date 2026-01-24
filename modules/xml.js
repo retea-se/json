@@ -105,6 +105,10 @@
             <i data-lucide="download"></i>
             ${t('download', 'Download')}
           </button>
+          <button type="button" class="json-toolbox__btn json-toolbox__btn--secondary" id="xmlSendToBtn">
+            <i data-lucide="send"></i>
+            ${t('send_to', 'Send to')}...
+          </button>
         </div>
       </div>
     `;
@@ -124,6 +128,7 @@
     document.getElementById('xmlPasteBtn').addEventListener('click', pasteFromClipboard);
     document.getElementById('xmlCopyBtn').addEventListener('click', copyOutput);
     document.getElementById('xmlDownloadBtn').addEventListener('click', downloadOutput);
+    document.getElementById('xmlSendToBtn').addEventListener('click', showSendToMenu);
     document.getElementById('xmlInput').addEventListener('input', debounce(saveState, 300));
     document.getElementById('xmlInput').addEventListener('keydown', handleKeydown);
   }
@@ -348,6 +353,15 @@
       window.JTA.trackDownload('xml', ext);
     }
     showStatus(t('downloaded', 'Downloaded'), 'success');
+  }
+
+  function showSendToMenu() {
+    const output = document.getElementById('xmlOutput').value;
+    if (!output) { showStatus(t('no_output', 'No output to send'), 'error'); return; }
+    const btn = document.getElementById('xmlSendToBtn');
+    if (window.JSONToolboxHandoff) {
+      window.JSONToolboxHandoff.showSendToDropdown(btn, 'xml', output);
+    }
   }
 
   function clearAll() {

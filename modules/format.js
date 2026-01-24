@@ -392,11 +392,9 @@
       return;
     }
 
-    // Simple: send to Validate tab
-    if (window.JSONToolbox) {
-      window.JSONToolbox.saveToStorage('validate-input', output);
-      window.JSONToolbox.switchTab('validate');
-      showStatus(t('sent_to_validate', 'Sent to Validate tab'), 'success');
+    const btn = document.getElementById('formatSendToBtn');
+    if (window.JSONToolboxHandoff) {
+      window.JSONToolboxHandoff.showSendToDropdown(btn, 'format', output);
     }
   }
 

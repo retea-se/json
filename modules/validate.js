@@ -77,6 +77,14 @@
             ${t('validate_send_to_fix', 'Send to Fix tab')}
           </button>
         </div>
+
+        <!-- Actions for valid JSON -->
+        <div class="validate-module__success-actions hidden" id="validateSuccessActions">
+          <button type="button" class="json-toolbox__btn json-toolbox__btn--secondary" id="validateSendToBtn">
+            <i data-lucide="send"></i>
+            ${t('send_to', 'Send to')}...
+          </button>
+        </div>
       </div>
     `;
 
@@ -91,6 +99,7 @@
     document.getElementById('validateClearBtn').addEventListener('click', clearAll);
     document.getElementById('validatePasteBtn').addEventListener('click', pasteFromClipboard);
     document.getElementById('validateSendToFix')?.addEventListener('click', sendToFix);
+    document.getElementById('validateSendToBtn')?.addEventListener('click', showSendToMenu);
 
     document.getElementById('validateInput').addEventListener('input', debounce(saveState, 300));
     document.getElementById('validateInput').addEventListener('keydown', handleKeydown);
@@ -109,6 +118,7 @@
 
     resultDiv.innerHTML = '';
     fixActions.classList.add('hidden');
+    document.getElementById('validateSuccessActions')?.classList.add('hidden');
 
     try {
       // Parse JSON
@@ -169,6 +179,9 @@
           ` : ''}
         </div>
       `;
+
+      // Show success actions
+      document.getElementById('validateSuccessActions')?.classList.remove('hidden');
 
       // Analytics: track successful validation
       if (window.JTA) {
@@ -307,6 +320,19 @@
     }
   }
 
+  function showSendToMenu() {
+    const input = document.getElementById('validateInput').value;
+    if (!input) {
+      showStatus(t('no_input', 'No input to send'), 'error');
+      return;
+    }
+
+    const btn = document.getElementById('validateSendToBtn');
+    if (window.JSONToolboxHandoff) {
+      window.JSONToolboxHandoff.showSendToDropdown(btn, 'validate', input);
+    }
+  }
+
   async function pasteFromClipboard() {
     try {
       const text = await navigator.clipboard.readText();
@@ -408,18 +434,18 @@
         background: var(--jt-privacy-bg); border: 1px solid var(--jt-privacy-border);
       }
       .validate-module__result-error {
-        background: #ffebee; border: 1px solid #ef9a9a;
+        background: var(--color-error-bg, #fce8ea); border: 1px solid var(--color-error-border, #f5c2c7);
       }
       [data-theme="dark"] .validate-module__result-error {
-        background: #b71c1c; border-color: #c62828;
+        background: var(--color-error-bg, #211414); border-color: var(--color-error-border, #e03131);
       }
       .validate-module__result-header {
         display: flex; align-items: center; gap: 0.5rem;
         font-weight: 600; font-size: 1rem; margin-bottom: 0.75rem;
       }
       .validate-module__result-success .validate-module__result-header { color: var(--jt-privacy-text); }
-      .validate-module__result-error .validate-module__result-header { color: #c62828; }
-      [data-theme="dark"] .validate-module__result-error .validate-module__result-header { color: #ffcdd2; }
+      .validate-module__result-error .validate-module__result-header { color: var(--color-error, #dc3545); }
+      [data-theme="dark"] .validate-module__result-error .validate-module__result-header { color: var(--color-error, #ff6b6b); }
       .validate-module__result-details { display: flex; flex-wrap: wrap; gap: 1rem; }
       .validate-module__stat { display: flex; gap: 0.25rem; font-size: 0.875rem; }
       .validate-module__stat-label { color: var(--jt-tab-text); }
@@ -435,8 +461,8 @@
         display: flex; align-items: center; gap: 0.5rem; margin-top: 0.75rem;
         padding: 0.5rem; border-radius: 0.25rem; font-size: 0.875rem;
       }
-      .validate-module__schema-result--valid { background: rgba(46,125,50,0.1); color: #2e7d32; }
-      .validate-module__schema-result--invalid { background: rgba(198,40,40,0.1); color: #c62828; }
+      .validate-module__schema-result--valid { background: var(--color-success-bg, #d1f7e5); color: var(--color-success, #198754); }
+      .validate-module__schema-result--invalid { background: var(--color-error-bg, #fce8ea); color: var(--color-error, #dc3545); }
       .validate-module__fix-actions { margin-top: 0.5rem; }
     `;
     document.head.appendChild(style);

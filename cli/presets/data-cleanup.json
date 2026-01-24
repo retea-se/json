@@ -1,0 +1,39 @@
+{
+  "name": "data-cleanup",
+  "version": "1.0.0",
+  "description": "Parse, deduplicate, sort, and format data",
+  "steps": [
+    {
+      "id": "parse",
+      "operator": "json.parse",
+      "params": {}
+    },
+    {
+      "id": "unique",
+      "operator": "transform.unique",
+      "params": {}
+    },
+    {
+      "id": "sort",
+      "operator": "transform.sort",
+      "params": {
+        "order": "asc"
+      }
+    },
+    {
+      "id": "format",
+      "operator": "json.stringify",
+      "params": {
+        "indent": 2
+      }
+    }
+  ],
+  "input": {
+    "type": "string",
+    "format": "json"
+  },
+  "output": {
+    "type": "string",
+    "format": "json"
+  }
+}

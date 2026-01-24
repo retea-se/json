@@ -1,6 +1,23 @@
-<!-- tools/json/index.php - JSON Toolbox v1.0.0 -->
+<!-- tools/json/index.php - JSON Toolbox v2.0.0 -->
 <?php
 require_once 'lang.php';
+
+// ============================================
+// Build Configuration (Phase0: Trust Repair)
+// ============================================
+
+// Zero-telemetry build: set to true to completely exclude analytics code
+// For air-gapped/enterprise deployments, use index-zero-telemetry.php instead
+define('ZERO_TELEMETRY_BUILD', getenv('JSON_TOOLBOX_ZERO_TELEMETRY') === 'true');
+
+// Compliance mode can be activated via:
+// 1. URL parameter: ?compliance=1
+// 2. Environment variable: JSON_TOOLBOX_COMPLIANCE=true
+$complianceMode = isset($_GET['compliance']) || getenv('JSON_TOOLBOX_COMPLIANCE') === 'true';
+
+// Analytics opt-in: user must explicitly enable via localStorage
+// This is checked client-side; default is OFF
+$analyticsOptIn = false; // Server cannot know; client checks localStorage
 
 $title = t('title');
 $metaDescription = t('meta_description');
@@ -24,6 +41,7 @@ $tabs = [
     'transform' => ['icon' => t('tab_transform_icon'), 'label' => t('tab_transform'), 'tooltip' => t('tab_transform_tooltip')],
     'utilities' => ['icon' => t('tab_utilities_icon'), 'label' => t('tab_utilities'), 'tooltip' => t('tab_utilities_tooltip')],
     'tree'      => ['icon' => t('tab_tree_icon'),      'label' => t('tab_tree'),      'tooltip' => t('tab_tree_tooltip')],
+    'pipeline'  => ['icon' => 'workflow',              'label' => 'Pipeline',         'tooltip' => t('tab_pipeline_tooltip')],
 ];
 
 // Strukturerad data för sökmotorer + hreflang
@@ -61,7 +79,7 @@ $extraHead = getHreflangTags($canonical, $langSupport) . '
   "applicationCategory": "DeveloperApplication",
   "operatingSystem": "Web Browser",
   "browserRequirements": "JavaScript enabled",
-  "softwareVersion": "1.0.0",
+  "softwareVersion": "2.0.0",
   "offers": {
     "@type": "Offer",
     "price": "0",
@@ -174,7 +192,7 @@ include '../../includes/tool-layout-start.php';
           'convert' => ['csv', 'css', 'xml', 'yaml'],
           'format'  => ['format', 'validate', 'fix'],
           'analyze' => ['diff', 'query', 'schema'],
-          'generate' => ['transform', 'utilities', 'tree']
+          'generate' => ['transform', 'utilities', 'tree', 'pipeline']
         ];
         
         $first = true;
@@ -324,6 +342,9 @@ window.i18n = {
   shortcut_hint: <?= json_encode(t('shortcut_hint')) ?>,
   cleared: <?= json_encode(t('cleared')) ?>,
   load_sample: <?= json_encode(t('load_sample')) ?>,
+  hints_quick_tips: <?= json_encode(t('hints_quick_tips')) ?>,
+  hints_workflows: <?= json_encode(t('hints_workflows')) ?>,
+  hints_show: <?= json_encode(t('hints_show')) ?>,
   
   // Error messages
   error_empty_input: <?= json_encode(t('error_empty_input')) ?>,
@@ -500,7 +521,52 @@ window.i18n = {
   // Sent to messages (i18n Pass v1)
   sent_to_format: <?= json_encode(t('sent_to_format')) ?>,
   sent_to_validate: <?= json_encode(t('sent_to_validate')) ?>,
-  sent_to_fix: <?= json_encode(t('sent_to_fix')) ?>
+  sent_to_fix: <?= json_encode(t('sent_to_fix')) ?>,
+  sent_to_tab: <?= json_encode(t('sent_to_tab')) ?>,
+  unknown_target: <?= json_encode(t('unknown_target')) ?>,
+  
+  // Pipeline module
+  pipeline_visual: <?= json_encode(t('pipeline_visual')) ?>,
+  pipeline_manifest: <?= json_encode(t('pipeline_manifest')) ?>,
+  pipeline_name: <?= json_encode(t('pipeline_name')) ?>,
+  pipeline_version: <?= json_encode(t('pipeline_version')) ?>,
+  pipeline_steps: <?= json_encode(t('pipeline_steps')) ?>,
+  pipeline_add_step: <?= json_encode(t('pipeline_add_step')) ?>,
+  pipeline_no_steps: <?= json_encode(t('pipeline_no_steps')) ?>,
+  pipeline_input: <?= json_encode(t('pipeline_input')) ?>,
+  pipeline_input_placeholder: <?= json_encode(t('pipeline_input_placeholder')) ?>,
+  pipeline_manifest_json: <?= json_encode(t('pipeline_manifest_json')) ?>,
+  pipeline_manifest_placeholder: <?= json_encode(t('pipeline_manifest_placeholder')) ?>,
+  pipeline_load_example: <?= json_encode(t('pipeline_load_example')) ?>,
+  pipeline_run: <?= json_encode(t('pipeline_run')) ?>,
+  pipeline_export: <?= json_encode(t('pipeline_export')) ?>,
+  pipeline_output: <?= json_encode(t('pipeline_output')) ?>,
+  pipeline_output_placeholder: <?= json_encode(t('pipeline_output_placeholder')) ?>,
+  pipeline_execution_log: <?= json_encode(t('pipeline_execution_log')) ?>,
+  pipeline_select_operator: <?= json_encode(t('pipeline_select_operator')) ?>,
+  pipeline_search_operators: <?= json_encode(t('pipeline_search_operators')) ?>,
+  pipeline_edit_step: <?= json_encode(t('pipeline_edit_step')) ?>,
+  pipeline_no_params: <?= json_encode(t('pipeline_no_params')) ?>,
+  pipeline_params_saved: <?= json_encode(t('pipeline_params_saved')) ?>,
+  pipeline_no_input: <?= json_encode(t('pipeline_no_input')) ?>,
+  pipeline_no_steps_error: <?= json_encode(t('pipeline_no_steps_error')) ?>,
+  pipeline_steps_run: <?= json_encode(t('pipeline_steps_run')) ?>,
+  pipeline_success: <?= json_encode(t('pipeline_success')) ?>,
+  pipeline_failed: <?= json_encode(t('pipeline_failed')) ?>,
+  pipeline_no_log: <?= json_encode(t('pipeline_no_log')) ?>,
+  pipeline_manifest_valid: <?= json_encode(t('pipeline_manifest_valid')) ?>,
+  pipeline_manifest_invalid: <?= json_encode(t('pipeline_manifest_invalid')) ?>,
+  pipeline_example_loaded: <?= json_encode(t('pipeline_example_loaded')) ?>,
+  pipeline_exported: <?= json_encode(t('pipeline_exported')) ?>,
+  format: <?= json_encode(t('format')) ?>,
+  validate: <?= json_encode(t('validate')) ?>,
+  save: <?= json_encode(t('save')) ?>,
+  cancel: <?= json_encode(t('cancel')) ?>,
+  edit: <?= json_encode(t('edit')) ?>,
+  delete: <?= json_encode(t('delete')) ?>,
+  move_up: <?= json_encode(t('move_up')) ?>,
+  move_down: <?= json_encode(t('move_down')) ?>,
+  formatted: <?= json_encode(t('formatted')) ?>
 };
 
 // Tab list for JS reference
@@ -523,14 +589,51 @@ window.jsonToolboxTabs = <?= json_encode(array_keys($tabs)) ?>;
 <script src="vendor/jsonrepair.min.js" defer></script>
 <script src="vendor/js-yaml.min.js" defer></script>
 
-<!-- Self-hosted Analytics (Privacy-first, Cookieless) -->
-<script src="modules/analytics.js?v=1"></script>
+<!-- Compliance Mode & Analytics Bootstrap (Phase0: Trust Repair) -->
+<script>
+(function() {
+  'use strict';
+  
+  // Compliance mode flag (from server or URL)
+  window.JSON_TOOLBOX_COMPLIANCE = <?= $complianceMode ? 'true' : 'false' ?>;
+  
+  // Analytics default OFF (opt-in model)
+  // Check localStorage for user opt-in preference
+  window.JSON_TOOLBOX_ANALYTICS = false;
+  try {
+    if (!window.JSON_TOOLBOX_COMPLIANCE) {
+      window.JSON_TOOLBOX_ANALYTICS = localStorage.getItem('json-toolbox-analytics-enabled') === 'true';
+    }
+  } catch (e) {
+    // localStorage unavailable - analytics stays off
+  }
+  
+  // Log compliance mode status for debugging
+  if (window.JSON_TOOLBOX_COMPLIANCE) {
+    console.info('[JSON Toolbox] Compliance mode active: no analytics, no persistent storage');
+  }
+})();
+</script>
+
+<?php if (!ZERO_TELEMETRY_BUILD): ?>
+<!-- Self-hosted Analytics (Privacy-first, Opt-in, Default OFF) -->
+<script src="modules/analytics.js?v=2"></script>
+<?php endif; ?>
 
 <!-- Core Script -->
 <script src="script.js?v=1"></script>
 
+<!-- Sample Data Module (provides sample datasets) -->
+<script src="modules/sample-data.js?v=1" defer></script>
+
+<!-- Handoff Module (cross-module data transfer) -->
+<script src="modules/handoff.js?v=1" defer></script>
+
+<!-- Hints Module (contextual help and tips) -->
+<script src="modules/hints.js?v=1" defer></script>
+
 <!-- Modules (loaded after core) -->
-<script src="modules/csv.js?v=1" defer></script>
+<script src="modules/csv.js?v=3" defer></script>
 <script src="modules/css.js?v=1" defer></script>
 <script src="modules/format.js?v=1" defer></script>
 <script src="modules/validate.js?v=1" defer></script>
@@ -543,5 +646,18 @@ window.jsonToolboxTabs = <?= json_encode(array_keys($tabs)) ?>;
 <script src="modules/transform.js?v=1" defer></script>
 <script src="modules/utilities.js?v=1" defer></script>
 <script src="modules/tree.js?v=1" defer></script>
+
+<!-- Operator System (Phase1: Pipeline Foundation) -->
+<script src="operators/registry.js?v=1" defer></script>
+<script src="operators/json.js?v=1" defer></script>
+<script src="operators/csv.js?v=1" defer></script>
+<script src="operators/xml.js?v=1" defer></script>
+<script src="operators/yaml.js?v=1" defer></script>
+<script src="operators/transform.js?v=1" defer></script>
+<script src="operators/pipeline.js?v=1" defer></script>
+<script src="operators/index.js?v=1" defer></script>
+
+<!-- Pipeline UI Module -->
+<script src="modules/pipeline-ui.js?v=1" defer></script>
 
 <?php include '../../includes/tool-layout-end.php'; ?>

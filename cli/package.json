@@ -1,0 +1,33 @@
+{
+  "name": "json-toolbox-cli",
+  "version": "1.0.0",
+  "description": "CLI for JSON Toolbox - deterministic data transformation pipelines",
+  "main": "index.js",
+  "bin": {
+    "json-toolbox": "./bin/json-toolbox.js",
+    "jtb": "./bin/json-toolbox.js"
+  },
+  "scripts": {
+    "test": "node test/runner.js",
+    "test:golden": "node test/golden.js"
+  },
+  "keywords": [
+    "json",
+    "toolbox",
+    "cli",
+    "pipeline",
+    "csv",
+    "xml",
+    "yaml",
+    "transform"
+  ],
+  "author": "mackan.eu",
+  "license": "MIT",
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "dependencies": {
+    "js-yaml": "^4.1.0"
+  },
+  "devDependencies": {}
+}

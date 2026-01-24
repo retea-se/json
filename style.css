@@ -1719,6 +1719,65 @@ kbd {
 }
 
 /* ============================================
+   SEND TO MENU
+   ============================================ */
+
+.send-to-menu {
+  min-width: 180px;
+  background: var(--color-surface);
+  border: var(--border-thin) solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--elevation-3);
+  overflow: hidden;
+  animation: sendToMenuIn 0.15s ease-out;
+}
+
+@keyframes sendToMenuIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.send-to-menu__item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  width: 100%;
+  padding: var(--space-lg) var(--space-xl);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: var(--text-body-sm);
+  color: var(--color-text);
+  transition: background var(--transition-fast);
+  text-align: left;
+}
+
+.send-to-menu__item:hover {
+  background: var(--color-bg-hover);
+}
+
+.send-to-menu__item svg {
+  width: 16px;
+  height: 16px;
+  color: var(--color-text-tertiary);
+}
+
+.send-to-menu__item:hover svg {
+  color: var(--color-primary);
+}
+
+[data-theme="dark"] .send-to-menu {
+  background: var(--color-surface-overlay);
+  border-color: var(--color-border);
+}
+
+/* ============================================
    DRAG & DROP
    ============================================ */
 

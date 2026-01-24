@@ -378,23 +378,23 @@
       .diff-module__result { margin-top: 0.5rem; }
       .diff-module__result-header { margin-bottom: 1rem; }
       .diff-module__identical { display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem; background: var(--jt-privacy-bg); border-radius: 0.375rem; color: var(--jt-privacy-text); font-weight: 500; }
-      .diff-module__different { display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem; background: #fff3e0; border-radius: 0.375rem; color: #e65100; font-weight: 500; }
-      [data-theme="dark"] .diff-module__different { background: #e65100; color: #fff3e0; }
+      .diff-module__different { display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem; background: var(--color-warning-bg, #fff3cd); border-radius: 0.375rem; color: var(--color-warning, #cc8400); font-weight: 500; }
+      [data-theme="dark"] .diff-module__different { background: var(--color-warning-bg, #1f1a0e); color: var(--color-warning, #fcc419); }
       .diff-module__table { width: 100%; border-collapse: collapse; font-size: 0.8125rem; }
       .diff-module__table th, .diff-module__table td { padding: 0.5rem; border: 1px solid var(--jt-panel-border); text-align: left; }
       .diff-module__table th { background: var(--jt-tab-bg); font-weight: 600; }
       .diff-module__path { font-family: monospace; word-break: break-all; }
       .diff-module__value { font-family: monospace; font-size: 0.75rem; max-width: 200px; overflow: hidden; text-overflow: ellipsis; }
       .diff-module__badge { display: inline-block; padding: 0.125rem 0.375rem; border-radius: 0.25rem; font-size: 0.6875rem; font-weight: 600; text-transform: uppercase; }
-      .diff-module__badge--added { background: #c8e6c9; color: #2e7d32; }
-      .diff-module__badge--removed { background: #ffcdd2; color: #c62828; }
-      .diff-module__badge--changed { background: #fff9c4; color: #f57f17; }
-      .diff-module__badge--type { background: #e1bee7; color: #7b1fa2; }
-      [data-theme="dark"] .diff-module__badge--added { background: #2e7d32; color: #c8e6c9; }
-      [data-theme="dark"] .diff-module__badge--removed { background: #c62828; color: #ffcdd2; }
-      [data-theme="dark"] .diff-module__badge--changed { background: #f57f17; color: #fff9c4; }
-      [data-theme="dark"] .diff-module__badge--type { background: #7b1fa2; color: #e1bee7; }
-      .diff-module__null { color: #9e9e9e; font-style: italic; }
+      .diff-module__badge--added { background: var(--color-success-bg, #d1f7e5); color: var(--color-success, #198754); }
+      .diff-module__badge--removed { background: var(--color-error-bg, #fce8ea); color: var(--color-error, #dc3545); }
+      .diff-module__badge--changed { background: var(--color-warning-bg, #fff3cd); color: var(--color-warning, #cc8400); }
+      .diff-module__badge--type { background: var(--color-accent-subtle, rgba(124, 58, 237, 0.06)); color: var(--color-accent, #7c3aed); }
+      [data-theme="dark"] .diff-module__badge--added { background: var(--color-success-bg, #112118); color: var(--color-success, #51cf66); }
+      [data-theme="dark"] .diff-module__badge--removed { background: var(--color-error-bg, #211414); color: var(--color-error, #ff6b6b); }
+      [data-theme="dark"] .diff-module__badge--changed { background: var(--color-warning-bg, #1f1a0e); color: var(--color-warning, #fcc419); }
+      [data-theme="dark"] .diff-module__badge--type { background: var(--color-accent-subtle, rgba(151, 117, 250, 0.10)); color: var(--color-accent, #9775fa); }
+      .diff-module__null { color: var(--color-text-tertiary, #6c757d); font-style: italic; }
     `;
     document.head.appendChild(style);
   }
