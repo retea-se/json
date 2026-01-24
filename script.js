@@ -1,12 +1,13 @@
 /**
  * JSON Toolbox - Main Script
- * Version: 1.0.0
+ * Version: 2.0.0
  * 
  * Handles:
  * - Tab navigation with keyboard support
  * - URL hash routing
- * - Local storage persistence
+ * - Local storage persistence (with compliance mode support)
  * - Clear saved data functionality
+ * - Compliance mode (Phase0: Trust Repair)
  */
 
 (function() {
@@ -21,6 +22,123 @@
     'csv', 'css', 'xml', 'yaml', 'format', 'validate', 
     'fix', 'diff', 'query', 'schema', 'transform', 'utilities', 'tree'
   ];
+
+  // ============================================
+  // Compliance Mode Detection (Phase0: Trust Repair)
+  // ============================================
+  const COMPLIANCE_MODE = window.JSON_TOOLBOX_COMPLIANCE === true;
+  
+  if (COMPLIANCE_MODE) {
+    console.info('[JSON Toolbox] Running in compliance mode - no persistent storage');
+  }
+
+  // ============================================
+  // StorageAdapter (Phase0: Trust Repair)
+  // Compliance-aware storage abstraction
+  // ============================================
+  const StorageAdapter = {
+    /**
+     * Get value from storage
+     * @param {string} key - Key (without prefix)
+     * @param {*} defaultValue - Default if not found
+     * @returns {*} Value or default
+     */
+    get(key, defaultValue = null) {
+      if (COMPLIANCE_MODE) {
+        return defaultValue;
+      }
+      try {
+        const data = localStorage.getItem(STORAGE_PREFIX + key);
+        if (data === null) return defaultValue;
+        try {
+          return JSON.parse(data);
+        } catch {
+          return data;
+        }
+      } catch (e) {
+        console.error('[StorageAdapter] Read error:', e);
+        return defaultValue;
+      }
+    },
+
+    /**
+     * Set value in storage
+     * @param {string} key - Key (without prefix)
+     * @param {*} value - Value to store
+     * @returns {boolean} Success
+     */
+    set(key, value) {
+      if (COMPLIANCE_MODE) {
+        return true; // Silently succeed but don't persist
+      }
+      try {
+        const data = typeof value === 'string' ? value : JSON.stringify(value);
+        // Check size limit (~1MB per key)
+        if (data.length > 1024 * 1024) {
+          console.warn('[StorageAdapter] Data too large (>1MB)');
+          return false;
+        }
+        localStorage.setItem(STORAGE_PREFIX + key, data);
+        return true;
+      } catch (e) {
+        console.error('[StorageAdapter] Write error:', e);
+        return false;
+      }
+    },
+
+    /**
+     * Remove value from storage
+     * @param {string} key - Key (without prefix)
+     * @returns {boolean} Success
+     */
+    remove(key) {
+      if (COMPLIANCE_MODE) {
+        return true;
+      }
+      try {
+        localStorage.removeItem(STORAGE_PREFIX + key);
+        return true;
+      } catch (e) {
+        console.error('[StorageAdapter] Remove error:', e);
+        return false;
+      }
+    },
+
+    /**
+     * Clear all JSON Toolbox storage
+     * @returns {boolean} Success
+     */
+    clearAll() {
+      if (COMPLIANCE_MODE) {
+        return true;
+      }
+      try {
+        const keysToRemove = [];
+        for (let i = 0; i < localStorage.length; i++) {
+          const key = localStorage.key(i);
+          if (key && key.startsWith(STORAGE_PREFIX)) {
+            keysToRemove.push(key);
+          }
+        }
+        keysToRemove.forEach(key => localStorage.removeItem(key));
+        return true;
+      } catch (e) {
+        console.error('[StorageAdapter] Clear error:', e);
+        return false;
+      }
+    },
+
+    /**
+     * Check if in compliance mode
+     * @returns {boolean}
+     */
+    isComplianceMode() {
+      return COMPLIANCE_MODE;
+    }
+  };
+
+  // Export StorageAdapter globally for modules
+  window.JSONToolboxStorage = StorageAdapter;
 
   // ============================================
   // State
@@ -150,34 +268,91 @@
   // ============================================
 
   let helpModalOpen = false;
+  let anyModalOpen = false; // Track any open modal
 
   /**
    * Handle global keyboard shortcuts
    * @param {KeyboardEvent} event
    */
   function handleGlobalKeydown(event) {
-    // Don't trigger shortcuts when typing in inputs
     const isInputFocused = ['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement?.tagName);
+    const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
+    const cmdOrCtrl = isMac ? event.metaKey : event.ctrlKey;
     
-    // Escape to close help modal
-    if (event.key === 'Escape' && helpModalOpen) {
-      closeHelpModal();
-      return;
+    // ----------------------------------------
+    // Escape - Close modals / reset context
+    // ----------------------------------------
+    if (event.key === 'Escape') {
+      // Close help modal
+      if (helpModalOpen) {
+        closeHelpModal();
+        event.preventDefault();
+        return;
+      }
+      // Close any open modal (send-to menus, sample selectors, etc.)
+      const openMenus = document.querySelectorAll('.send-to-menu:not(.hidden), .sample-selector__menu:not(.hidden), .jt-modal-overlay');
+      if (openMenus.length > 0) {
+        openMenus.forEach(menu => {
+          if (menu.classList.contains('jt-modal-overlay')) {
+            menu.remove();
+          } else {
+            menu.classList.add('hidden');
+          }
+        });
+        event.preventDefault();
+        return;
+      }
+      // Blur current input (reset focus)
+      if (isInputFocused) {
+        document.activeElement.blur();
+        event.preventDefault();
+        return;
+      }
     }
 
-    // ? to show keyboard shortcuts help (Shift+/ on most keyboards)
+    // ----------------------------------------
+    // ? - Show keyboard shortcuts help
+    // ----------------------------------------
     if ((event.key === '?' || (event.shiftKey && event.key === '/')) && !isInputFocused) {
       event.preventDefault();
       toggleHelpModal();
       return;
     }
 
+    // ----------------------------------------
+    // Cmd/Ctrl+Enter - Run current operation
+    // ----------------------------------------
+    if (cmdOrCtrl && event.key === 'Enter') {
+      event.preventDefault();
+      runCurrentOperation();
+      return;
+    }
+
+    // ----------------------------------------
+    // Cmd/Ctrl+K - Clear current tab
+    // ----------------------------------------
+    if (cmdOrCtrl && event.key === 'k') {
+      event.preventDefault();
+      clearCurrentTab();
+      return;
+    }
+
+    // ----------------------------------------
+    // Cmd/Ctrl+Shift+V - Smart paste (when not in input)
+    // ----------------------------------------
+    if (cmdOrCtrl && event.shiftKey && event.key === 'V' && !isInputFocused) {
+      event.preventDefault();
+      smartPaste();
+      return;
+    }
+
+    // ----------------------------------------
     // Ctrl+1-9 for quick tab switching
-    if (event.ctrlKey && !event.shiftKey && !event.altKey) {
+    // ----------------------------------------
+    if (event.ctrlKey && !event.shiftKey && !event.altKey && !event.metaKey) {
       const num = parseInt(event.key, 10);
       if (num >= 1 && num <= 9 && num <= VALID_TABS.length) {
         event.preventDefault();
-        // Analytics: track shortcut
         if (window.JTA) {
           window.JTA.trackShortcut('ctrl+' + num);
         }
@@ -186,17 +361,109 @@
       }
     }
 
-    // Tab/Shift+Tab to cycle tabs (when not in input)
-    if (event.key === 'Tab' && event.shiftKey && event.ctrlKey) {
+    // ----------------------------------------
+    // Ctrl+Tab / Ctrl+Shift+Tab - Cycle tabs
+    // ----------------------------------------
+    if (event.key === 'Tab' && event.ctrlKey) {
       event.preventDefault();
       const currentIndex = VALID_TABS.indexOf(currentTab);
-      const newIndex = currentIndex > 0 ? currentIndex - 1 : VALID_TABS.length - 1;
+      const newIndex = event.shiftKey
+        ? (currentIndex > 0 ? currentIndex - 1 : VALID_TABS.length - 1)
+        : (currentIndex < VALID_TABS.length - 1 ? currentIndex + 1 : 0);
       switchTab(VALID_TABS[newIndex]);
-    } else if (event.key === 'Tab' && event.ctrlKey && !event.shiftKey) {
-      event.preventDefault();
-      const currentIndex = VALID_TABS.indexOf(currentTab);
-      const newIndex = currentIndex < VALID_TABS.length - 1 ? currentIndex + 1 : 0;
-      switchTab(VALID_TABS[newIndex]);
+    }
+  }
+
+  /**
+   * Run the current tab's primary operation
+   */
+  function runCurrentOperation() {
+    // Find and click the primary action button for the current tab
+    const panel = document.getElementById(`panel-${currentTab}`);
+    if (!panel) return;
+
+    // Look for primary buttons in order of priority
+    const primaryBtn = panel.querySelector(
+      '[id$="ConvertBtn"], [id$="RunBtn"], [id$="FormatBtn"], [id$="ValidateBtn"], ' +
+      '[id$="FixBtn"], [id$="CompareBtn"], [id$="QueryBtn"], [id$="GenerateBtn"], ' +
+      '.json-toolbox__btn--primary, button[type="submit"]'
+    );
+
+    if (primaryBtn && !primaryBtn.disabled) {
+      primaryBtn.click();
+      showStatus(window.i18n?.shortcut_executed || 'Action executed', 'success');
+      if (window.JTA) {
+        window.JTA.trackShortcut('ctrl+enter');
+      }
+    }
+  }
+
+  /**
+   * Clear the current tab's inputs
+   */
+  function clearCurrentTab() {
+    const panel = document.getElementById(`panel-${currentTab}`);
+    if (!panel) return;
+
+    // Find and click the clear button
+    const clearBtn = panel.querySelector('[id$="ClearBtn"], [id*="Clear"], .csv-module__clear-btn');
+    if (clearBtn) {
+      clearBtn.click();
+      if (window.JTA) {
+        window.JTA.trackShortcut('ctrl+k');
+      }
+    }
+  }
+
+  /**
+   * Smart paste - paste and auto-detect format
+   */
+  async function smartPaste() {
+    try {
+      const text = await navigator.clipboard.readText();
+      if (!text) return;
+
+      // Find the input textarea for the current tab
+      const panel = document.getElementById(`panel-${currentTab}`);
+      if (!panel) return;
+
+      const input = panel.querySelector('textarea:not([readonly])') || 
+                    panel.querySelector('input[type="text"]');
+      
+      if (input) {
+        input.value = text;
+        input.dispatchEvent(new Event('input', { bubbles: true }));
+        
+        // Auto-detect and pretty-print if JSON
+        if (isValidJson(text)) {
+          try {
+            const parsed = JSON.parse(text);
+            input.value = JSON.stringify(parsed, null, 2);
+            input.dispatchEvent(new Event('input', { bubbles: true }));
+          } catch (e) {
+            // Keep original text
+          }
+        }
+        
+        showStatus(window.i18n?.pasted || 'Pasted', 'success');
+        if (window.JTA) {
+          window.JTA.trackShortcut('ctrl+shift+v');
+        }
+      }
+    } catch (e) {
+      console.warn('Clipboard access denied:', e);
+    }
+  }
+
+  /**
+   * Check if string is valid JSON
+   */
+  function isValidJson(str) {
+    try {
+      JSON.parse(str);
+      return true;
+    } catch (e) {
+      return false;
     }
   }
 
@@ -215,6 +482,10 @@
   function openHelpModal() {
     if (document.getElementById('jt-help-modal')) return;
 
+    // Platform-aware key labels
+    const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
+    const cmdKey = isMac ? '⌘' : 'Ctrl';
+    
     // Grouped shortcuts in VSCode style
     const shortcutGroups = [
       {
@@ -231,9 +502,10 @@
         title: window.i18n?.shortcut_group_actions || 'Actions',
         icon: 'zap',
         shortcuts: [
-          { keys: 'Ctrl+Enter', desc: window.i18n?.shortcut_run || 'Run current operation', icon: 'play' },
-          { keys: 'Ctrl+Shift+C', desc: window.i18n?.shortcut_copy || 'Copy output', icon: 'copy' },
-          { keys: 'Ctrl+Shift+V', desc: window.i18n?.shortcut_paste || 'Paste to input', icon: 'clipboard-paste' },
+          { keys: `${cmdKey}+Enter`, desc: window.i18n?.shortcut_run || 'Run current operation', icon: 'play' },
+          { keys: `${cmdKey}+K`, desc: window.i18n?.shortcut_clear || 'Clear inputs', icon: 'trash-2' },
+          { keys: `${cmdKey}+Shift+V`, desc: window.i18n?.shortcut_smart_paste || 'Smart paste (auto-format)', icon: 'clipboard-paste' },
+          { keys: `${cmdKey}+Shift+C`, desc: window.i18n?.shortcut_copy || 'Copy output', icon: 'copy' },
         ]
       },
       {
@@ -241,7 +513,7 @@
         icon: 'settings',
         shortcuts: [
           { keys: '?', desc: window.i18n?.shortcut_help || 'Show keyboard shortcuts', icon: 'help-circle' },
-          { keys: 'Escape', desc: window.i18n?.shortcut_close || 'Close modal/dialog', icon: 'x' },
+          { keys: 'Escape', desc: window.i18n?.shortcut_close || 'Close modal / reset focus', icon: 'x' },
         ]
       }
     ];
@@ -323,67 +595,35 @@
   }
 
   // ============================================
-  // Local Storage
+  // Local Storage (delegates to StorageAdapter)
   // ============================================
 
   /**
-   * Save data to localStorage
+   * Save data to localStorage (compliance-aware)
    * @param {string} key - Storage key (without prefix)
    * @param {*} value - Value to store
    */
   function saveToStorage(key, value) {
-    try {
-      const data = typeof value === 'string' ? value : JSON.stringify(value);
-      // Check size limit (~1MB per tab)
-      if (data.length > 1024 * 1024) {
-        console.warn('JSON Toolbox: Data too large to save (>1MB)');
-        return false;
-      }
-      localStorage.setItem(STORAGE_PREFIX + key, data);
-      return true;
-    } catch (e) {
-      console.error('JSON Toolbox: Could not save to localStorage', e);
-      return false;
-    }
+    return StorageAdapter.set(key, value);
   }
 
   /**
-   * Load data from localStorage
+   * Load data from localStorage (compliance-aware)
    * @param {string} key - Storage key (without prefix)
    * @param {*} defaultValue - Default if not found
    * @returns {*} Stored value or default
    */
   function loadFromStorage(key, defaultValue = null) {
-    try {
-      const data = localStorage.getItem(STORAGE_PREFIX + key);
-      if (data === null) return defaultValue;
-      
-      // Try to parse as JSON, fallback to raw string
-      try {
-        return JSON.parse(data);
-      } catch {
-        return data;
-      }
-    } catch (e) {
-      console.error('JSON Toolbox: Could not load from localStorage', e);
-      return defaultValue;
-    }
+    return StorageAdapter.get(key, defaultValue);
   }
 
   /**
-   * Clear all saved data
+   * Clear all saved data (compliance-aware)
    */
   function clearAllStorage() {
-    try {
-      const keysToRemove = [];
-      for (let i = 0; i < localStorage.length; i++) {
-        const key = localStorage.key(i);
-        if (key && key.startsWith(STORAGE_PREFIX)) {
-          keysToRemove.push(key);
-        }
-      }
-      keysToRemove.forEach(key => localStorage.removeItem(key));
-      
+    const success = StorageAdapter.clearAll();
+    
+    if (success) {
       // Analytics: track clear storage
       if (window.JTA) {
         window.JTA.trackAction('storage', 'clear', 'all');
@@ -396,12 +636,9 @@
       
       // Dispatch event for modules to reset
       window.dispatchEvent(new CustomEvent('jsontoolbox:storagecleared'));
-      
-      return true;
-    } catch (e) {
-      console.error('JSON Toolbox: Could not clear localStorage', e);
-      return false;
     }
+    
+    return success;
   }
 
   // ============================================
@@ -624,7 +861,10 @@
     updateStatusBarOutput,
     ensureString,
     getCurrentTab: () => currentTab,
-    getTabs: () => [...VALID_TABS]
+    getTabs: () => [...VALID_TABS],
+    // Phase0: Trust Repair - expose compliance mode status
+    isComplianceMode: () => COMPLIANCE_MODE,
+    storage: StorageAdapter
   };
 
   // ============================================

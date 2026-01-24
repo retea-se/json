@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+  namespace: production
+data:
+  DATABASE_URL: "postgres://localhost:5432/app"
+  REDIS_HOST: "redis.local"
+  LOG_LEVEL: "info"
+  FEATURES:
+    - feature_a
+    - feature_b
+    - feature_c

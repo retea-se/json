@@ -97,7 +97,7 @@
             </button>
             <button type="button" class="json-toolbox__btn json-toolbox__btn--secondary" id="fixSendToBtn">
               <i data-lucide="send"></i>
-              ${t('send_to', 'Send to')} ${t('tab_format', 'Format')}
+              ${t('send_to', 'Send to')}...
             </button>
           </div>
         </div>
@@ -362,10 +362,9 @@
       showStatus(t('no_output', 'No output to send'), 'error');
       return;
     }
-    if (window.JSONToolbox) {
-      window.JSONToolbox.saveToStorage('format-input', output);
-      window.JSONToolbox.switchTab('format');
-      showStatus(t('sent_to_format', 'Sent to Format tab'), 'success');
+    const btn = document.getElementById('fixSendToBtn');
+    if (window.JSONToolboxHandoff) {
+      window.JSONToolboxHandoff.showSendToDropdown(btn, 'fix', output);
     }
   }
 
@@ -455,10 +454,10 @@
       }
       .fix-module__result-error {
         display: flex; align-items: center; gap: 0.5rem;
-        padding: 0.75rem; background: #ffebee; border-radius: 0.375rem;
-        color: #c62828; font-weight: 500;
+        padding: 0.75rem; background: var(--color-error-bg, #fce8ea); border-radius: 0.375rem;
+        color: var(--color-error, #dc3545); font-weight: 500;
       }
-      [data-theme="dark"] .fix-module__result-error { background: #b71c1c; color: #ffcdd2; }
+      [data-theme="dark"] .fix-module__result-error { background: var(--color-error-bg, #211414); color: var(--color-error, #ff6b6b); }
       .fix-module__error-message { margin-top: 0.5rem; font-size: 0.875rem; color: var(--jt-tab-text); }
       .fix-module__method { font-weight: 400; font-size: 0.75rem; opacity: 0.7; }
     `;

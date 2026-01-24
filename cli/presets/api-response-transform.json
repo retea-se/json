@@ -1,0 +1,51 @@
+{
+  "name": "api-response-transform",
+  "version": "1.0.0",
+  "description": "Extract, filter, and format data from API response",
+  "steps": [
+    {
+      "id": "parse",
+      "operator": "json.parse",
+      "params": {}
+    },
+    {
+      "id": "extract",
+      "operator": "query.jsonpath",
+      "params": {
+        "path": "$.data"
+      }
+    },
+    {
+      "id": "filter-active",
+      "operator": "transform.filter",
+      "params": {
+        "key": "status",
+        "operator": "eq",
+        "value": "active"
+      }
+    },
+    {
+      "id": "sort",
+      "operator": "transform.sort",
+      "params": {
+        "key": "name",
+        "order": "asc"
+      }
+    },
+    {
+      "id": "output",
+      "operator": "json.stringify",
+      "params": {
+        "indent": 2
+      }
+    }
+  ],
+  "input": {
+    "type": "string",
+    "format": "json"
+  },
+  "output": {
+    "type": "string",
+    "format": "json"
+  }
+}

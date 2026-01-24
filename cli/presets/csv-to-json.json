@@ -1,0 +1,30 @@
+{
+  "name": "csv-to-json",
+  "version": "1.0.0",
+  "description": "Convert CSV data to formatted JSON array",
+  "steps": [
+    {
+      "id": "parse",
+      "operator": "csv.parse",
+      "params": {
+        "header": true,
+        "delimiter": "auto"
+      }
+    },
+    {
+      "id": "format",
+      "operator": "json.stringify",
+      "params": {
+        "indent": 2
+      }
+    }
+  ],
+  "input": {
+    "type": "string",
+    "format": "csv"
+  },
+  "output": {
+    "type": "string",
+    "format": "json"
+  }
+}

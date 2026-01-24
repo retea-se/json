@@ -120,6 +120,7 @@
             <i data-lucide="clipboard-paste"></i>
             ${t('paste', 'Paste')}
           </button>
+          <div id="csvSampleSelector"></div>
         </div>
 
         <!-- Output Area -->
@@ -193,6 +194,9 @@
 
     // Send to button
     document.getElementById('csvSendToBtn').addEventListener('click', showSendToMenu);
+
+    // Sample data selector
+    initSampleSelector();
 
     // Column select/deselect all
     document.getElementById('selectAllCols')?.addEventListener('click', () => toggleAllColumns(true));
@@ -462,7 +466,7 @@
 
       // Analytics: track successful conversion
       if (window.JTA) {
-        window.JTA.trackSuccess('csv', direction, parsed.rows);
+        window.JTA.trackSuccess('csv', direction, result.split('\n').length);
       }
       
       showStatus(t('success', 'Done!'), 'success');
@@ -681,21 +685,16 @@
       return;
     }
 
-    // Create simple dropdown
-    const targets = direction === 'csv-to-json' 
-      ? ['format', 'validate', 'fix', 'diff', 'query', 'tree']
-      : [];
-
-    if (targets.length === 0) {
+    // Only JSON output can be sent to other modules
+    if (direction !== 'csv-to-json') {
       showStatus(t('csv_no_send_targets', 'No valid targets for CSV output'), 'error');
       return;
     }
 
-    // For simplicity, send to Format tab
-    if (window.JSONToolbox) {
-      window.JSONToolbox.saveToStorage('format-input', output);
-      window.JSONToolbox.switchTab('format');
-      showStatus(t('csv_sent_to_format', 'Sent to Format tab'), 'success');
+    // Use shared handoff module
+    const btn = document.getElementById('csvSendToBtn');
+    if (window.JSONToolboxHandoff) {
+      window.JSONToolboxHandoff.showSendToDropdown(btn, 'csv', output);
     }
   }
 
@@ -1049,6 +1048,31 @@
       }
     `;
     document.head.appendChild(style);
+  }
+
+  // ============================================
+  // Sample Data Selector
+  // ============================================
+  function initSampleSelector() {
+    const container = document.getElementById('csvSampleSelector');
+    if (!container || !window.JSONToolboxSamples) return;
+
+    const selector = window.JSONToolboxSamples.createSampleSelector('csv', (data, sampleId) => {
+      const input = document.getElementById('csvInput');
+      if (input) {
+        input.value = data;
+        input.dispatchEvent(new Event('input', { bubbles: true }));
+        if (direction === 'csv-to-json') {
+          parseAndShowColumns();
+        }
+        saveState();
+        showStatus(t('sample_loaded', 'Sample loaded'), 'success');
+      }
+    });
+
+    if (selector) {
+      container.appendChild(selector);
+    }
   }
 
   // ============================================

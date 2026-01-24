@@ -1,0 +1,40 @@
+{
+  "name": "jsontb",
+  "version": "2.0.0",
+  "description": "JSON Toolbox CLI - Deterministic data transformation pipelines",
+  "license": "MIT",
+  "buildDate": "2026-01-23T20:38:20.084Z",
+  "platform": "win32",
+  "artifacts": [
+    {
+      "name": "jsontb.js",
+      "type": "bundle",
+      "runtime": [
+        "node",
+        "deno",
+        "bun"
+      ],
+      "size": 116016
+    }
+  ],
+  "checksums": [
+    {
+      "name": "jsontb.js",
+      "hash": "dc3c6d53b5c04d4ba2e020c49303b767f732a49ea472dffd2f0f4ef95d12b830"
+    }
+  ],
+  "operators": {
+    "total": 42,
+    "namespaces": [
+      "json",
+      "csv",
+      "xml",
+      "yaml",
+      "transform",
+      "diff",
+      "fix",
+      "schema",
+      "query"
+    ]
+  }
+}

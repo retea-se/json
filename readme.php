@@ -45,6 +45,7 @@ $readmeTranslations = [
         'cap_transform_notes' => 'Interfaces, types, JSDoc',
         'cap_utilities_notes' => 'Base64, URL encode/decode, escape',
         'cap_tree_notes' => 'Interaktiv expand/collapse',
+        'cap_pipeline_notes' => 'Kedja operatorer, visuell byggare, manifest-export',
         
         // Examples
         'examples_title' => 'Exempel',
@@ -108,7 +109,7 @@ $readmeTranslations = [
         'privacy_server' => 'Data skickas till server',
         'privacy_server_val' => 'Aldrig',
         'privacy_analytics' => 'Analytics/telemetri',
-        'privacy_analytics_val' => 'Endast aggregat (cookieless, self-hosted)',
+        'privacy_analytics_val' => 'Av som standard (opt-in)',
         'privacy_cookies' => 'Cookies',
         'privacy_cookies_val' => 'Inga',
         'privacy_account' => 'Konto krävs',
@@ -133,23 +134,25 @@ $readmeTranslations = [
         'manifesto_2_desc' => 'Inga cookies. Inga fingerprints. Inga session IDs. Inga user IDs.',
         'manifesto_3' => 'Opt-in lagring',
         'manifesto_3_desc' => 'localStorage används endast för att spara dina preferenser. Rensas med ett klick.',
-        'manifesto_4' => 'Transparent analytics',
-        'manifesto_4_desc' => 'Endast aggregerad användningsstatistik. Self-hosted på samma infrastruktur.',
+        'manifesto_4' => 'Zero telemetry som standard',
+        'manifesto_4_desc' => 'Analytics är av som standard. Opt-in för aggregerad statistik.',
         'manifesto_5' => 'Ingen rekonstruktion',
         'manifesto_5_desc' => 'Omöjligt att återskapa individuella sessioner eller användarbeteenden.',
         'manifesto_footer' => 'Vi tror att verktyg ska hjälpa, inte övervaka.',
         
         // Observability
         'observability_title' => 'Observability & Analytics',
-        'observability_intro' => 'JSON Toolbox använder privacy-first analytics för att förbättra verktyget:',
+        'observability_intro' => 'JSON Toolbox har zero telemetry som standard. Analytics kan aktiveras (opt-in):',
         'obs_what' => 'Vad samlas in',
         'obs_what_list' => 'Sidvisningar, flikbyten, operationstyper (format/validate/convert), temaval, språkval',
         'obs_how' => 'Hur det fungerar',
         'obs_how_list' => 'Self-hosted Matomo | Cookieless mode | POST requests | Respekterar DNT',
         'obs_not' => 'Vad samlas INTE in',
         'obs_not_list' => 'Din JSON-data | IP-adress (anonymiserad) | Session replay | Browser fingerprint | Identifierare',
-        'obs_disable' => 'Inaktivera analytics',
-        'obs_disable_code' => 'Lägg till i din kod före sidladdning:',
+        'obs_disable' => 'Aktivera analytics',
+        'obs_disable_code' => 'Analytics är av som standard. För att aktivera:',
+        'obs_compliance' => 'Compliance-läge',
+        'obs_compliance_code' => 'För enterprise-miljöer, använd compliance-läge:',
         
         // PII & Enterprise
         'pii_title' => 'PII & Enterprise-kompatibilitet',
@@ -173,7 +176,7 @@ $readmeTranslations = [
         'airgap_step2' => 'Alla resurser cachas lokalt',
         'airgap_step3' => 'Stäng av internet - verktyget fungerar fortfarande',
         'airgap_full' => 'För fullständig air-gap',
-        'airgap_full_desc' => 'Inaktivera analytics och ladda ner för lokal hosting:',
+        'airgap_full_desc' => 'Använd zero-telemetry build för fullständig isolation:',
         'airgap_features' => 'Alla funktioner offline',
         'airgap_features_list' => 'CSV/XML/YAML/CSS konvertering | Format/Validate/Repair | Diff/Query/Schema | Transform/Tree/Utilities',
         
@@ -198,6 +201,8 @@ $readmeTranslations = [
         'action' => 'Åtgärd',
         'shortcut_help' => 'Visa/dölj genvägar',
         'shortcut_run' => 'Kör aktuell operation',
+        'shortcut_clear' => 'Rensa inputs',
+        'shortcut_smart_paste' => 'Smart inklistring (auto-format)',
         'shortcut_tabs' => 'Byt till flik 1-9',
         'shortcut_next' => 'Nästa flik',
         'shortcut_prev' => 'Föregående flik',
@@ -214,7 +219,7 @@ $readmeTranslations = [
         'policy_local' => 'Local Execution Policy',
         'policy_local_1' => 'Inga nätverksanrop under verktygsoperation',
         'policy_local_2' => 'Ingen backend eller molnbearbetning',
-        'policy_local_3' => 'Ingen telemetri (endast aggregerad analytics, opt-out)',
+        'policy_local_3' => 'Zero telemetry som standard (opt-in analytics)',
         'policy_local_4' => 'All bearbetning i webbläsarens JavaScript',
         'policy_a11y' => 'Accessibility Policy',
         'policy_a11y_1' => 'WCAG AA kontrastuppfyllnad (≥4.5:1)',
@@ -288,6 +293,7 @@ $readmeTranslations = [
         'cap_transform_notes' => 'Interfaces, types, JSDoc',
         'cap_utilities_notes' => 'Base64, URL encode/decode, escape',
         'cap_tree_notes' => 'Interactive expand/collapse',
+        'cap_pipeline_notes' => 'Chain operators, visual builder, manifest export',
         
         // Examples
         'examples_title' => 'Examples',
@@ -351,7 +357,7 @@ $readmeTranslations = [
         'privacy_server' => 'Data sent to server',
         'privacy_server_val' => 'Never',
         'privacy_analytics' => 'Analytics/telemetry',
-        'privacy_analytics_val' => 'Aggregate only (cookieless, self-hosted)',
+        'privacy_analytics_val' => 'Off by default (opt-in)',
         'privacy_cookies' => 'Cookies',
         'privacy_cookies_val' => 'None',
         'privacy_account' => 'Account required',
@@ -376,23 +382,25 @@ $readmeTranslations = [
         'manifesto_2_desc' => 'No cookies. No fingerprints. No session IDs. No user IDs.',
         'manifesto_3' => 'Opt-in storage',
         'manifesto_3_desc' => 'localStorage is only used to save your preferences. Cleared with one click.',
-        'manifesto_4' => 'Transparent analytics',
-        'manifesto_4_desc' => 'Aggregate usage statistics only. Self-hosted on same infrastructure.',
+        'manifesto_4' => 'Zero telemetry by default',
+        'manifesto_4_desc' => 'Analytics are off by default. Opt-in for aggregate statistics.',
         'manifesto_5' => 'No reconstruction',
         'manifesto_5_desc' => 'Impossible to reconstruct individual sessions or user behaviors.',
         'manifesto_footer' => 'We believe tools should help, not surveil.',
         
         // Observability
         'observability_title' => 'Observability & Analytics',
-        'observability_intro' => 'JSON Toolbox uses privacy-first analytics to improve the tool:',
+        'observability_intro' => 'JSON Toolbox has zero telemetry by default. Analytics can be enabled (opt-in):',
         'obs_what' => 'What is collected',
         'obs_what_list' => 'Page views, tab switches, operation types (format/validate/convert), theme choice, language choice',
         'obs_how' => 'How it works',
         'obs_how_list' => 'Self-hosted Matomo | Cookieless mode | POST requests | Respects DNT',
         'obs_not' => 'What is NOT collected',
         'obs_not_list' => 'Your JSON data | IP address (anonymized) | Session replay | Browser fingerprint | Identifiers',
-        'obs_disable' => 'Disable analytics',
-        'obs_disable_code' => 'Add to your code before page load:',
+        'obs_disable' => 'Enable analytics',
+        'obs_disable_code' => 'Analytics are off by default. To enable:',
+        'obs_compliance' => 'Compliance mode',
+        'obs_compliance_code' => 'For enterprise environments, use compliance mode:',
         
         // PII & Enterprise
         'pii_title' => 'PII & Enterprise Compatibility',
@@ -416,7 +424,7 @@ $readmeTranslations = [
         'airgap_step2' => 'All resources are cached locally',
         'airgap_step3' => 'Disconnect internet - tool still works',
         'airgap_full' => 'For full air-gap',
-        'airgap_full_desc' => 'Disable analytics and download for local hosting:',
+        'airgap_full_desc' => 'Use zero-telemetry build for complete isolation:',
         'airgap_features' => 'All features offline',
         'airgap_features_list' => 'CSV/XML/YAML/CSS conversion | Format/Validate/Repair | Diff/Query/Schema | Transform/Tree/Utilities',
         
@@ -441,6 +449,8 @@ $readmeTranslations = [
         'action' => 'Action',
         'shortcut_help' => 'Show/hide shortcuts',
         'shortcut_run' => 'Run current operation',
+        'shortcut_clear' => 'Clear inputs',
+        'shortcut_smart_paste' => 'Smart paste (auto-format)',
         'shortcut_tabs' => 'Switch to tab 1-9',
         'shortcut_next' => 'Next tab',
         'shortcut_prev' => 'Previous tab',
@@ -457,7 +467,7 @@ $readmeTranslations = [
         'policy_local' => 'Local Execution Policy',
         'policy_local_1' => 'No network calls during tool operation',
         'policy_local_2' => 'No backend or cloud processing',
-        'policy_local_3' => 'No telemetry (aggregate analytics only, opt-out)',
+        'policy_local_3' => 'Zero telemetry by default (opt-in analytics)',
         'policy_local_4' => 'All processing in browser JavaScript',
         'policy_a11y' => 'Accessibility Policy',
         'policy_a11y_1' => 'WCAG AA contrast compliance (≥4.5:1)',
@@ -512,25 +522,28 @@ include '../../includes/tool-layout-start.php';
 <style>
 .readme { max-width: 900px; margin: 0 auto; }
 .readme section { margin-bottom: 2rem; }
-.readme h2 { margin-top: 2rem; border-bottom: 1px solid var(--border-color, #dee2e6); padding-bottom: 0.5rem; }
-.readme h3 { margin-top: 1.5rem; }
+.readme h2 { margin-top: 2rem; border-bottom: 1px solid var(--border-color, #ccc); padding-bottom: 0.5rem; color: var(--text-color, #222); }
+.readme h3 { margin-top: 1.5rem; color: var(--text-color, #222); }
+.readme p, .readme li { color: var(--text-color, #222); }
 .readme table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.9rem; }
-.readme th, .readme td { padding: 0.5rem; border: 1px solid var(--border-color, #dee2e6); text-align: left; }
-.readme th { background: var(--surface-elevated, #f8f9fa); font-weight: 600; }
-.readme pre { background: var(--surface-elevated, #f4f4f4); padding: 1rem; border-radius: 4px; overflow-x: auto; font-size: 0.85rem; }
-.readme code { font-family: 'JetBrains Mono', monospace; }
-.readme .hero-box { background: var(--surface-elevated, #f8f9fa); padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem; text-align: center; }
-.readme .hero-box pre { background: transparent; text-align: left; display: inline-block; margin: 1rem 0; }
-.readme .hero-trust { font-weight: 600; color: var(--color-primary, #0066cc); }
-.readme .status-never { color: #28a745; font-weight: 600; }
-.readme .status-none { color: #28a745; font-weight: 600; }
+.readme th, .readme td { padding: 0.5rem; border: 1px solid var(--border-color, #ccc); text-align: left; color: var(--text-color, #222); }
+.readme th { background: var(--card-bg, #fff); font-weight: 600; }
+.readme pre { background: var(--card-bg, #f4f4f4); padding: 1rem; border-radius: 4px; overflow-x: auto; font-size: 0.85rem; color: var(--text-color, #222); border: 1px solid var(--border-color, #ccc); }
+.readme code { font-family: 'JetBrains Mono', monospace; color: var(--text-color, #222); }
+.readme .hero-box { background: var(--card-bg, #f8f9fa); padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem; text-align: center; border: 1px solid var(--border-color, #ccc); }
+.readme .hero-box pre { background: transparent; text-align: left; display: inline-block; margin: 1rem 0; border: none; }
+.readme .hero-trust { font-weight: 600; color: var(--primary-color, #0066cc); }
+.readme .status-never { color: var(--success-color, #28a745); font-weight: 600; }
+.readme .status-none { color: var(--success-color, #28a745); font-weight: 600; }
 .readme dl { margin: 1rem 0; }
-.readme dt { font-weight: 600; margin-top: 1rem; }
-.readme dd { margin-left: 1rem; color: var(--color-text-secondary, #6c757d); }
+.readme dt { font-weight: 600; margin-top: 1rem; color: var(--text-color, #222); }
+.readme dd { margin-left: 1rem; opacity: 0.8; color: var(--text-color, #6c757d); }
 .readme .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; }
-.readme .card-box { background: var(--surface-elevated, #f8f9fa); padding: 1rem; border-radius: 6px; }
-.readme .card-box h4 { margin: 0 0 0.5rem 0; font-size: 1rem; }
-.readme .card-box p { margin: 0; font-size: 0.9rem; color: var(--color-text-secondary, #6c757d); }
+.readme .card-box { background: var(--card-bg, #f8f9fa); padding: 1rem; border-radius: 6px; border: 1px solid var(--border-color, #ccc); }
+.readme .card-box h4 { margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--text-color, #222); }
+.readme .card-box p { margin: 0; font-size: 0.9rem; opacity: 0.8; color: var(--text-color, #6c757d); }
+.readme a { color: var(--primary-color, #0066cc); }
+.readme a:hover { color: var(--primary-color-hover, #005a9e); }
 </style>
 
 <!-- ********** START: JSON Toolbox Readme ********** -->
@@ -596,6 +609,7 @@ Input → Transform → Output
         <tr><td><strong>Transform</strong></td><td>JSON</td><td>TypeScript</td><td><?= htmlspecialchars(t('cap_transform_notes'), ENT_QUOTES, 'UTF-8') ?></td></tr>
         <tr><td><strong>Utilities</strong></td><td>String</td><td>String</td><td><?= htmlspecialchars(t('cap_utilities_notes'), ENT_QUOTES, 'UTF-8') ?></td></tr>
         <tr><td><strong>Tree</strong></td><td>JSON</td><td>Tree view</td><td><?= htmlspecialchars(t('cap_tree_notes'), ENT_QUOTES, 'UTF-8') ?></td></tr>
+        <tr><td><strong>Pipeline</strong></td><td>Any</td><td>Any</td><td><?= htmlspecialchars(t('cap_pipeline_notes'), ENT_QUOTES, 'UTF-8') ?></td></tr>
       </tbody>
     </table>
   </section>
@@ -757,7 +771,15 @@ Bob,user,false</code></pre>
     </table>
     <h3><?= htmlspecialchars(t('obs_disable'), ENT_QUOTES, 'UTF-8') ?></h3>
     <p><?= htmlspecialchars(t('obs_disable_code'), ENT_QUOTES, 'UTF-8') ?></p>
-    <pre><code>&lt;script&gt;window.ANALYTICS_DISABLED = true;&lt;/script&gt;</code></pre>
+    <pre><code>localStorage.setItem('json-toolbox-analytics-enabled', 'true');
+location.reload();</code></pre>
+    <h3><?= htmlspecialchars(t('obs_compliance'), ENT_QUOTES, 'UTF-8') ?></h3>
+    <p><?= htmlspecialchars(t('obs_compliance_code'), ENT_QUOTES, 'UTF-8') ?></p>
+    <pre><code>// URL parameter
+?compliance=1
+
+// Or environment variable
+JSON_TOOLBOX_COMPLIANCE=true</code></pre>
   </section>
 
   <!-- PII & Enterprise -->
@@ -790,8 +812,11 @@ Bob,user,false</code></pre>
     </ol>
     <h3><?= htmlspecialchars(t('airgap_full'), ENT_QUOTES, 'UTF-8') ?></h3>
     <p><?= htmlspecialchars(t('airgap_full_desc'), ENT_QUOTES, 'UTF-8') ?></p>
-    <pre><code>&lt;script&gt;window.ANALYTICS_DISABLED = true;&lt;/script&gt;
-&lt;!-- Then download /tools/json/ folder for local hosting --&gt;</code></pre>
+    <pre><code>// Use zero-telemetry entry point (no analytics code loaded):
+/tools/json/index-zero-telemetry.php
+
+// Or set environment variable:
+JSON_TOOLBOX_ZERO_TELEMETRY=true</code></pre>
     <h3><?= htmlspecialchars(t('airgap_features'), ENT_QUOTES, 'UTF-8') ?></h3>
     <p><?= htmlspecialchars(t('airgap_features_list'), ENT_QUOTES, 'UTF-8') ?></p>
   </section>
@@ -828,6 +853,8 @@ Bob,user,false</code></pre>
       <tbody>
         <tr><td><kbd>?</kbd></td><td><?= htmlspecialchars(t('shortcut_help'), ENT_QUOTES, 'UTF-8') ?></td></tr>
         <tr><td><kbd>Ctrl</kbd>+<kbd>Enter</kbd></td><td><?= htmlspecialchars(t('shortcut_run'), ENT_QUOTES, 'UTF-8') ?></td></tr>
+        <tr><td><kbd>Ctrl</kbd>+<kbd>K</kbd></td><td><?= htmlspecialchars(t('shortcut_clear'), ENT_QUOTES, 'UTF-8') ?></td></tr>
+        <tr><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>V</kbd></td><td><?= htmlspecialchars(t('shortcut_smart_paste'), ENT_QUOTES, 'UTF-8') ?></td></tr>
         <tr><td><kbd>Ctrl</kbd>+<kbd>1-9</kbd></td><td><?= htmlspecialchars(t('shortcut_tabs'), ENT_QUOTES, 'UTF-8') ?></td></tr>
         <tr><td><kbd>Ctrl</kbd>+<kbd>Tab</kbd></td><td><?= htmlspecialchars(t('shortcut_next'), ENT_QUOTES, 'UTF-8') ?></td></tr>
         <tr><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>Tab</kbd></td><td><?= htmlspecialchars(t('shortcut_prev'), ENT_QUOTES, 'UTF-8') ?></td></tr>

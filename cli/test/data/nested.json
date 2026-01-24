@@ -1,0 +1,29 @@
+{
+  "company": {
+    "name": "Acme Corp",
+    "departments": [
+      {
+        "name": "Engineering",
+        "teams": [
+          {
+            "name": "Backend",
+            "members": [
+              {"name": "Alice", "role": "Lead"},
+              {"name": "Bob", "role": "Developer"}
+            ]
+          },
+          {
+            "name": "Frontend",
+            "members": [
+              {"name": "Charlie", "role": "Lead"}
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Sales",
+        "teams": []
+      }
+    ]
+  }
+}

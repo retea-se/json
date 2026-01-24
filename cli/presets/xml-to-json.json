@@ -1,0 +1,29 @@
+{
+  "name": "xml-to-json",
+  "version": "1.0.0",
+  "description": "Convert XML to formatted JSON",
+  "steps": [
+    {
+      "id": "parse",
+      "operator": "xml.parse",
+      "params": {
+        "preserveAttributes": true
+      }
+    },
+    {
+      "id": "format",
+      "operator": "json.stringify",
+      "params": {
+        "indent": 2
+      }
+    }
+  ],
+  "input": {
+    "type": "string",
+    "format": "xml"
+  },
+  "output": {
+    "type": "string",
+    "format": "json"
+  }
+}

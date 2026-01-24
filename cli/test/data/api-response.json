@@ -1,0 +1,22 @@
+{
+  "status": "success",
+  "data": {
+    "items": [
+      {"id": "prod_001", "name": "Laptop", "price": 999.99, "stock": 50, "category": "electronics"},
+      {"id": "prod_002", "name": "Mouse", "price": 29.99, "stock": 200, "category": "electronics"},
+      {"id": "prod_003", "name": "Keyboard", "price": 79.99, "stock": 150, "category": "electronics"},
+      {"id": "prod_004", "name": "Chair", "price": 299.99, "stock": 30, "category": "furniture"},
+      {"id": "prod_005", "name": "Desk", "price": 449.99, "stock": 20, "category": "furniture"}
+    ],
+    "pagination": {
+      "page": 1,
+      "per_page": 20,
+      "total": 5,
+      "total_pages": 1
+    }
+  },
+  "meta": {
+    "request_id": "req_abc123",
+    "timestamp": "2024-01-15T12:00:00Z"
+  }
+}

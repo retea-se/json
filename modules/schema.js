@@ -419,8 +419,8 @@
       .schema-module__actions { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.5rem; }
       .schema-module__result { margin-top: 1rem; }
       .schema-module__valid { display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem; background: var(--jt-privacy-bg); border-radius: 0.375rem; color: var(--jt-privacy-text); font-weight: 500; }
-      .schema-module__invalid { display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem; background: #ffebee; border-radius: 0.375rem 0.375rem 0 0; color: #c62828; font-weight: 500; }
-      [data-theme="dark"] .schema-module__invalid { background: #b71c1c; color: #ffcdd2; }
+      .schema-module__invalid { display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem; background: var(--color-error-bg, #fce8ea); border-radius: 0.375rem 0.375rem 0 0; color: var(--color-error, #dc3545); font-weight: 500; }
+      [data-theme="dark"] .schema-module__invalid { background: var(--color-error-bg, #211414); color: var(--color-error, #ff6b6b); }
       .schema-module__error-list { margin: 0; padding: 0.75rem 0.75rem 0.75rem 2rem; background: var(--jt-tab-bg); border-radius: 0 0 0.375rem 0.375rem; font-size: 0.8125rem; }
     `;
     document.head.appendChild(style);

@@ -1,0 +1,9 @@
+{
+  "name": "deduplicate",
+  "version": "1.0.0",
+  "steps": [
+    { "operator": "json.parse" },
+    { "operator": "transform.unique", "params": { "key": "email" } },
+    { "operator": "json.stringify", "params": { "indent": 2 } }
+  ]
+}

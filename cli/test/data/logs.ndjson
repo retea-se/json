@@ -1,0 +1,5 @@
+{"timestamp":"2024-01-15T10:30:00Z","level":"info","message":"Server started","service":"api"}
+{"timestamp":"2024-01-15T10:30:05Z","level":"info","message":"Connected to database","service":"api"}
+{"timestamp":"2024-01-15T10:31:00Z","level":"warn","message":"High memory usage","service":"worker"}
+{"timestamp":"2024-01-15T10:32:15Z","level":"error","message":"Failed to process job","service":"worker","error":"timeout"}
+{"timestamp":"2024-01-15T10:33:00Z","level":"info","message":"Request completed","service":"api","duration_ms":150}

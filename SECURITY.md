@@ -43,9 +43,10 @@ exclusively in your web browser. This document outlines our security model.
 - **All output** - Generated JSON, TypeScript, schemas
 - **Clipboard operations** - Paste, copy
 
-### What Is Transmitted (Optional)
-- **Analytics only** - Aggregate usage data (cookieless, no identifiers)
-- **Can be disabled** - Set `window.ANALYTICS_DISABLED = true`
+### What Is Transmitted
+- **Nothing by default** - Analytics are OFF by default (opt-in only)
+- **If analytics enabled** - Aggregate usage data (cookieless, no identifiers)
+- **Compliance mode** - Zero network calls guaranteed
 
 ## Threat Model
 
@@ -65,38 +66,86 @@ exclusively in your web browser. This document outlines our security model.
 - Physical access attacks
 - Malicious browser extensions
 
+## Compliance Mode (v2.0.0+)
+
+For enterprise and regulated environments, JSON Toolbox offers compliance mode:
+
+### Activation
+```javascript
+// Via URL parameter
+https://example.com/tools/json/?compliance=1
+
+// Via environment variable
+JSON_TOOLBOX_COMPLIANCE=true
+
+// Via JavaScript (before page load)
+window.JSON_TOOLBOX_COMPLIANCE = true;
+```
+
+### Compliance Mode Guarantees
+- **Zero network calls** - No analytics, no external requests
+- **No persistent storage** - localStorage operations are no-ops
+- **Memory-only processing** - All data discarded on page close
+
+### Zero-Telemetry Build
+
+For maximum assurance, use the zero-telemetry build:
+- Access: `/tools/json/index-zero-telemetry.php`
+- **No analytics code loaded** (script excluded, not just disabled)
+- Compliance mode automatically enabled
+
+See `COMPLIANCE.md` for full documentation.
+
 ## Analytics Security
 
-Analytics (when enabled) follows these security principles:
+**Analytics are OFF by default (opt-in only).** When explicitly enabled by user:
 
 ```javascript
-// Configuration in analytics.js
+// Privacy configuration in analytics.js
 _paq.push(['disableCookies']);           // No tracking cookies
 _paq.push(['setDoNotTrack', true]);      // Respects browser DNT
 _paq.push(['disableBrowserFeatureDetection']); // No fingerprinting
 _paq.push(['setRequestMethod', 'POST']); // No URL logging
 ```
 
-### Analytics Data Flow
+### Analytics Data Flow (When Enabled)
 1. **Collected**: Page view, tab switch, operation type (e.g., "format")
 2. **Not collected**: User data, identifiers, session info, IP (anonymized)
 3. **Destination**: Self-hosted Matomo on same infrastructure
 4. **Retention**: Standard Matomo retention policies
 
+### Enable Analytics (Opt-in)
+```javascript
+localStorage.setItem('json-toolbox-analytics-enabled', 'true');
+location.reload();
+```
+
 ### Disable Analytics
-```html
-<script>window.ANALYTICS_DISABLED = true;</script>
+```javascript
+localStorage.removeItem('json-toolbox-analytics-enabled');
+location.reload();
 ```
 
 ## Local Storage Usage
 
-JSON Toolbox uses `localStorage` for:
+JSON Toolbox uses `localStorage` for (in non-compliance mode):
 - Theme preference
 - Language preference
 - Last input per tab (for convenience)
+- Analytics opt-in status
+
+### Compliance Mode Storage
+In compliance mode, all storage operations are no-ops:
+- Reads return default values
+- Writes silently succeed but don't persist
+- Data exists only in memory during session
 
 ### Clear All Data
 ```javascript
+// Via API
+window.JSONToolbox.clearAllStorage();
+
+// Or directly
 localStorage.clear();
 ```
 Or use the "Clear saved data" option in the UI.
@@ -105,10 +154,17 @@ Or use the "Clear saved data" option in the UI.
 
 For maximum security, self-host JSON Toolbox:
 
+**Standard Hosting:**
 1. Download the `/tools/json/` directory
-2. Disable analytics: Add `window.ANALYTICS_DISABLED = true;`
+2. Analytics are already OFF by default
 3. Serve via any static file server
 4. No backend required
+
+**Air-Gapped / Enterprise Hosting:**
+1. Use `index-zero-telemetry.php` as entry point
+2. No analytics code will be loaded
+3. Compliance mode auto-enabled
+4. Zero network dependencies
 
 ## Dependency Security
 
@@ -156,8 +212,9 @@ JSON Toolbox architecture supports:
 
 | Date | Version | Change |
 |------|---------|--------|
-| 2026-01-20 | 2.0 | Added privacy-first analytics (cookieless, self-hosted) |
-| 2026-01-15 | 1.9 | Initial SECURITY.md |
+| 2026-01-20 | 2.0.0 | Analytics default-off (opt-in), compliance mode, zero-telemetry build |
+| 2026-01-18 | 1.0.0 | Added privacy-first analytics (cookieless, self-hosted) |
+| 2026-01-15 | 0.9.0 | Initial SECURITY.md |
 
 ---
 

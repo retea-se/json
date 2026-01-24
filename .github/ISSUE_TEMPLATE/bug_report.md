@@ -1,34 +1,60 @@
 ---
 name: Bug Report
-about: Report a bug in JSON Toolbox
+about: Report a bug in JSON Toolbox or other tools
 title: '[BUG] '
 labels: bug
 assignees: ''
 ---
 
-## Description
-Brief description of the bug.
+## Describe the Bug
+
+A clear description of what the bug is.
+
+## Tool/Module
+
+- [ ] JSON Toolbox (Browser)
+- [ ] jsontb CLI
+- [ ] Pipeline Engine
+- [ ] Other: ___
 
 ## Steps to Reproduce
+
 1. Go to '...'
 2. Click on '...'
-3. See error
+3. Enter '...'
+4. See error
 
 ## Expected Behavior
-What should happen.
+
+What you expected to happen.
 
 ## Actual Behavior
-What actually happens.
+
+What actually happened.
+
+## Sample Input
+
+```json
+// Paste sample input that triggers the bug
+```
 
 ## Environment
-- Browser: [e.g., Chrome 120]
-- OS: [e.g., Windows 11]
-- Language: [sv/en]
-- Theme: [light/dark]
 
-## Module
-Which module is affected? (csv, format, validate, etc.)
+- Browser: [e.g., Chrome 120, Firefox 121]
+- OS: [e.g., Windows 11, macOS 14]
+- Node.js version (if CLI): [e.g., 20.10.0]
+- Tool version: [e.g., 2.0.0]
 
-## Sample Data
-If applicable, provide sample input that triggers the bug.
-(Do not include sensitive/real data)
+## Screenshots
+
+If applicable, add screenshots.
+
+## Console Errors
+
+```
+// Paste any console errors
+```
+
+## Additional Context
+
+Any other relevant information.

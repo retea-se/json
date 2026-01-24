@@ -1,11 +1,6 @@
 # JSON Toolbox
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/version-1.0.0-green.svg)](https://github.com/retea-se/json/releases/tag/v1.0.0)
-[![Offline](https://img.shields.io/badge/offline-ready-brightgreen.svg)](#offline--air-gapped)
-[![Local Only](https://img.shields.io/badge/execution-local--only-orange.svg)](#why-local-execution)
-
-**Local-first JSON/CSV/YAML/XML conversion for developers. No server, no telemetry, deterministic output.**
+Local-first data conversion and JSON manipulation for developers.
 
 ```
 Input → Transform → Output
@@ -15,274 +10,285 @@ Input → Transform → Output
  YAML   Repair     Tree View
 ```
 
----
-
-## Quick Start
-
-**Use it in 10 seconds:**
-
-1. Open [mackan.eu/tools/json](https://mackan.eu/tools/json/)
-2. Paste your data
-3. Click convert
-
-No signup. No installation. Works offline after first load.
+**No server. Zero telemetry by default. Deterministic output.**
 
 ---
 
-## Examples
+## What It Does
 
-### CSV → JSON
+Convert, validate, format, and transform JSON and related data formats. Everything runs in your browser. Nothing leaves your machine.
 
-**Input:**
-```csv
-name,role,active
-Alice,admin,true
-Bob,user,false
-```
-
-**Output:**
-```json
-[
-  {"name": "Alice", "role": "admin", "active": true},
-  {"name": "Bob", "role": "user", "active": false}
-]
-```
-
-### JSON → TypeScript
-
-**Input:**
-```json
-{"id": 1, "name": "Product", "price": 29.99, "tags": ["sale"]}
-```
-
-**Output:**
-```typescript
-interface Root {
-  id: number;
-  name: string;
-  price: number;
-  tags: string[];
-}
-```
-
-### Repair Broken JSON
-
-**Input:**
-```javascript
-{name: 'Alice', active: true,}  // single quotes + trailing comma
-```
-
-**Output:**
-```json
-{"name": "Alice", "active": true}
-```
+**Formats:** JSON, CSV, XML, YAML, CSS  
+**Operations:** Convert, Format, Minify, Validate, Repair, Diff, Query, Transform  
+**Output:** JSON, TypeScript interfaces, Go structs, Python dataclasses, JSON Schema, Tree view
 
 ---
 
-## Capabilities
+## Capability Matrix
 
-| Operation | Input | Output | Notes |
-|-----------|-------|--------|-------|
-| **CSV** | CSV, TSV | JSON | Auto-detect delimiter, transpose |
-| | JSON | CSV | Array-of-objects export |
-| **XML** | XML | JSON | Preserves attributes |
+| Module | Input | Output | Notes |
+|--------|-------|--------|-------|
+| **CSV** | CSV, TSV | JSON | Column filter, transpose, delimiter auto-detect |
+| | JSON | CSV | Array-of-objects to CSV |
+| **XML** | XML | JSON | Preserves attributes, compact mode |
 | | JSON | XML | Configurable output |
-| **YAML** | YAML | JSON | YAML 1.2 compliant |
-| | JSON | YAML | Flow/block style |
+| **YAML** | YAML | JSON | Full YAML 1.2 support |
+| | JSON | YAML | Flow style, custom indent |
+| **CSS** | CSS | JSON | Rule-based parsing |
 | **Format** | JSON | JSON | Beautify, minify, sort keys |
-| **Validate** | JSON | Report | Syntax + schema validation |
-| **Repair** | Broken JSON | Valid JSON | Trailing commas, quotes, comments |
-| **Diff** | 2× JSON | Diff | Visual comparison |
-| **Query** | JSON | Subset | JSONPath expressions |
-| **Schema** | JSON | JSON Schema | Draft-07 |
-| **Transform** | JSON | TS/Go/Python | Interfaces, structs, dataclasses |
-| **Utilities** | String | String | Base64, URL encode, escape |
-| **Tree** | JSON | Tree view | Interactive navigation |
+| **Validate** | JSON | Report | Syntax check, schema validation |
+| **Repair** | Broken JSON | Valid JSON | Fixes trailing commas, single quotes, comments |
+| **Diff** | 2× JSON | Diff view | Visual comparison, ignore order option |
+| **Query** | JSON + JSONPath | JSON subset | Standard JSONPath expressions |
+| **Schema** | JSON | JSON Schema | Draft-07 generation |
+| **Transform** | JSON | TypeScript, Go, Python | Interfaces, structs, dataclasses, JSDoc |
+| **Utilities** | String | String | Base64, URL encode/decode, escape |
+| **Tree** | JSON | Tree view | Interactive expand/collapse |
+| **Pipeline** | Any | Any | Chain operators, visual builder, manifest export |
 
 ---
 
 ## Why Local Execution?
 
-| Concern | Server-based | JSON Toolbox |
-|---------|--------------|--------------|
-| Data privacy | Sent to third party | Never leaves browser |
-| PII/PHI handling | Compliance risk | No compliance burden |
-| Offline | Requires internet | Works offline |
-| Speed | Network latency | Instant |
-| Determinism | Server may change | Same input = same output |
-| Enterprise | May violate policy | IT-approved friendly |
-
-**When to use JSON Toolbox:**
-- Converting production data exports with PII
-- Working with API keys or credentials
-- Processing proprietary business data
-- Air-gapped or regulated environments
-- Needing reproducible, auditable output
+| Concern | Server-based tools | JSON Toolbox |
+|---------|-------------------|--------------|
+| **Data privacy** | Data sent to third party | Data never leaves browser |
+| **PII handling** | Compliance risk | No compliance burden |
+| **Offline use** | Requires internet | Works offline after first load |
+| **Speed** | Network latency | Instant |
+| **Determinism** | Server may change | Same input = same output |
+| **Enterprise use** | May violate policy | IT-friendly |
 
 ---
 
-## Keyboard Shortcuts
-
-Press `?` to view all shortcuts.
-
-| Shortcut | Action |
-|----------|--------|
-| `?` | Show shortcuts |
-| `Ctrl+Enter` | Run operation |
-| `Ctrl+1-9` | Switch tabs |
-| `Ctrl+Shift+C` | Copy output |
-
----
-
-## Offline & Air-Gapped
-
-JSON Toolbox works fully offline after initial page load.
-
-**For air-gapped environments:**
-1. Load page once with internet
-2. All resources cached locally
-3. Disconnect — tool continues working
-
-**Disable analytics entirely:**
-```html
-<script>window.ANALYTICS_DISABLED = true;</script>
-```
-
-Or download this repo and self-host.
-
----
-
-## FAQ
-
-<details>
-<summary><strong>Is my data sent anywhere?</strong></summary>
-
-No. All processing happens in your browser. User data never leaves your machine.
-</details>
-
-<details>
-<summary><strong>Can I use this with PII/PHI/sensitive data?</strong></summary>
-
-Yes. JSON Toolbox is designed for regulated workloads. Data stays local, no compliance burden.
-</details>
-
-<details>
-<summary><strong>What about analytics/telemetry?</strong></summary>
-
-**Telemetry:** None. No user tracking, no identifiers, no fingerprinting.
-
-**Analytics:** Optional aggregate usage stats (which tabs are used). Cookieless, self-hosted, respects DNT. Disable with `ANALYTICS_DISABLED = true`.
-</details>
-
-<details>
-<summary><strong>Does it work offline?</strong></summary>
-
-Yes. After first load, all features work without internet. No external dependencies at runtime.
-</details>
-
-<details>
-<summary><strong>What dependencies does it use?</strong></summary>
-
-Self-hosted only (no CDN):
-- PapaParse — CSV parsing
-- js-yaml — YAML parsing  
-- jsonrepair — JSON fixing
-- Lucide — Icons
-
-No frameworks, no build systems, no external services.
-</details>
-
-<details>
-<summary><strong>Can I self-host this?</strong></summary>
-
-Yes. Clone this repo, serve statically. Set `ANALYTICS_DISABLED = true` for full air-gap.
-</details>
-
----
-
-## Philosophy
+## Deterministic Developer Utility
 
 JSON Toolbox follows the **Deterministic Developer Utility** pattern:
 
 1. **Local execution** — No network calls during operation
-2. **Deterministic output** — Same input → same output, always
-3. **Zero onboarding** — Paste, click, done
-4. **No side effects** — Nothing installed without consent
-5. **Keyboard-first** — Full operation via shortcuts
+2. **Deterministic output** — Same input always produces same output
+3. **Zero onboarding** — Paste data, click convert
+4. **No side effects** — Nothing installed, nothing persisted without consent
+5. **Keyboard-first** — Full operation via shortcuts (press `?`)
 
 This is a tool, not a service.
 
 ---
 
+## Keyboard Shortcuts
+
+| Shortcut | Action |
+|----------|--------|
+| `?` | Show/hide shortcuts |
+| `Ctrl+Enter` | Run current operation |
+| `Ctrl+K` | Clear inputs |
+| `Ctrl+Shift+V` | Smart paste (auto-format) |
+| `Ctrl+Shift+C` | Copy output |
+| `Ctrl+1-9` | Switch to tab 1-9 |
+| `Ctrl+Tab` | Next tab |
+| `Ctrl+Shift+Tab` | Previous tab |
+| `Escape` | Close modal |
+
+---
+
+## Cross-Module Workflow
+
+Data can flow seamlessly between modules using **Send to...** buttons:
+
+```
+CSV → Parse → JSON → Validate → Schema → TypeScript
+         ↓
+    Transform → YAML/XML
+         ↓
+    Pipeline (chain operations)
+```
+
+Each module output includes a "Send to..." dropdown to forward data to compatible modules.
+
+---
+
 ## Policies
 
-### Privacy
-- Zero telemetry (no user tracking)
-- Optional aggregate analytics (cookieless, self-hosted, opt-out)
-- No cookies
-- User data never transmitted
+### Dependency Policy
 
-### Dependencies
-- **Allowed:** Local-only capability libraries
-- **Disallowed:** Frameworks, CDNs, external services
+**Allowed:** Capability libraries (local-only, deterministic, self-hosted)
 
-### Accessibility
-- WCAG AA contrast (≥4.5:1)
-- Full keyboard navigation
+Self-hosted in `/vendor/`:
+- `papaparse.min.js` — CSV parsing (RFC 4180 compliant)
+- `js-yaml.min.js` — YAML parsing (YAML 1.2)
+- `jsonrepair.min.js` — Broken JSON repair
+- `lucide.min.js` — Icon library
+
+**Disallowed:** Frameworks, build systems, CDN dependencies, external services
+
+### Local Execution Policy
+
+- No network calls during tool operation
+- No backend or cloud processing
+- Zero telemetry by default (analytics opt-in only)
+- All processing in browser JavaScript
+- Compliance mode available for enterprise environments
+
+### Privacy Policy
+
+- Zero telemetry by default (analytics OFF unless explicitly enabled)
+- Privacy-first analytics available (aggregate only, cookieless, self-hosted)
+- Zero cookies (localStorage for preferences only, disabled in compliance mode)
+- User data never transmitted to any server
+- Compliance mode: zero network calls, no persistent storage
+
+### Compliance Mode
+
+For enterprise and air-gapped environments:
+
+```javascript
+// Activate via URL parameter
+?compliance=1
+
+// Or environment variable
+JSON_TOOLBOX_COMPLIANCE=true
+```
+
+**Zero-telemetry build:** Use `index-zero-telemetry.php` for deployments where even analytics code must be absent.
+
+See `COMPLIANCE.md` for full documentation.
+
+### Accessibility Policy
+
+- WCAG AA contrast compliance (≥4.5:1)
+- Keyboard navigation for all functions
+- ARIA labels on interactive elements
 - Screen reader compatible
 
-See [SECURITY.md](SECURITY.md) for full security model.
-
 ---
 
-## Suite
+## Technical Details
 
-JSON Toolbox is part of the **mackan.eu developer utility suite** — a collection of deterministic, privacy-first tools:
+| Metric | Value |
+|--------|-------|
+| Viewport | 1366×768, 1920×1080 (no scroll) |
+| Languages | Swedish (sv), English (en) |
+| Themes | Light, Dark |
+| i18n Keys | 400+ |
 
-| Tool | Purpose | Status |
-|------|---------|--------|
-| **JSON Toolbox** | Data conversion & manipulation | v1.0.0 |
-| Password Generator | Cryptographic passwords | Available |
-| Image Converter | Local format conversion | Available |
-| Coordinate Converter | GPS transformation | Available |
-
-Suite philosophy: Local execution, zero telemetry, deterministic output.
-
----
-
-## Project Structure
+### Architecture
 
 ```
-├── index.php          Main page
-├── lang.php           i18n strings (sv/en)
-├── script.js          Core logic, shortcuts
-├── style.css          Design system
-├── modules/           13 capability modules
-│   ├── csv.js, xml.js, yaml.js, css.js
+tools/json/
+├── index.php          Main page, i18n, structured data
+├── lang.php           Translation strings (sv/en, 400+ keys)
+├── script.js          Core orchestration, shortcuts, persistence
+├── style.css          Design tokens, components
+├── modules/           16 lazy-loaded capability modules
+│   ├── csv.js, css.js, xml.js, yaml.js
 │   ├── format.js, validate.js, fix.js
 │   ├── diff.js, query.js, schema.js
-│   └── transform.js, utilities.js, tree.js
-├── vendor/            Self-hosted libraries
-├── docs/              QA reports, design docs
-└── SECURITY.md        Security policy
+│   ├── transform.js, utilities.js, tree.js
+│   ├── pipeline.js    Visual pipeline builder + engine
+│   ├── handoff.js     Cross-module data transfer
+│   └── hints.js       Contextual tips and workflows
+├── operators/         Pipeline operator registry
+└── vendor/            Self-hosted capability libraries
+    ├── papaparse.min.js
+    ├── jsonrepair.min.js
+    ├── js-yaml.min.js
+    └── lucide.min.js
 ```
 
 ---
 
-## Contributing
+## Related Tools
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+*Part of the mackan.eu developer utility suite:*
 
-**TL;DR:** PRs welcome. No new dependencies. No telemetry. Preserve local-only execution.
-
----
-
-## License
-
-[MIT](LICENSE)
+- [Password Generator](/tools/passwordgenerator/) — Cryptographically secure passwords
+- [Image Converter](/tools/bildconverter/) — Local image format conversion
+- [Coordinate Converter](/tools/koordinat/) — GPS coordinate transformation
 
 ---
 
-**Version:** 1.0.0  
-**URL:** [mackan.eu/tools/json](https://mackan.eu/tools/json/)  
-**Source:** [github.com/retea-se/json](https://github.com/retea-se/json)
+## CLI (jsontb)
+
+A standalone command-line interface with full browser parity.
+
+### Quick Start
+
+```bash
+# Download bundle
+curl -O https://mackan.eu/tools/json/cli/dist/jsontb.js
+
+# Format JSON
+echo '{"a":1,"b":2}' | node jsontb.js exec json.format
+
+# Convert CSV to JSON
+cat data.csv | node jsontb.js exec csv.parse --header true
+
+# Run a pipeline
+node jsontb.js run pipeline.json < input.json > output.json
+
+# List all operators
+node jsontb.js list-operators
+```
+
+### Features
+
+- **42 operators** across 9 namespaces
+- **Zero dependencies** - single self-contained bundle
+- **Offline capable** - no network access required
+- **Cross-platform** - Node.js, Deno, or Bun
+- **Deterministic** - identical output to browser version
+
+### Presets
+
+Pre-built pipelines for common workflows:
+
+```bash
+node jsontb.js run presets/csv-to-json.json < data.csv
+node jsontb.js run presets/data-cleanup.json < messy.json
+node jsontb.js run presets/generate-schema.json < sample.json
+```
+
+### Exit Codes
+
+| Code | Description |
+|------|-------------|
+| 0 | Success |
+| 1 | Pipeline/operator error |
+| 2 | Invalid manifest |
+| 3 | Invalid input |
+| 4 | Timeout |
+
+See `cli/README.md` for full documentation.
+
+---
+
+## Version
+
+**2.0.0** — Pipeline Foundation + CLI Parity
+- Analytics default-off (opt-in only)
+- Compliance mode for enterprise environments
+- Zero-telemetry build variant
+- StorageAdapter with compliance-aware behavior
+
+**1.3.0** — Cross-Module Handoff
+- "Send to..." dropdown on all modules
+- Seamless data transfer between modules
+- Workflow chaining without copy/paste
+
+**1.2.0** — Developer Showcase
+- Contextual hints panel with tips and workflows
+- Sample datasets ("Load sample" button) per module
+- Smart paste with auto-detection (Ctrl+Shift+V)
+- Clear inputs shortcut (Ctrl+K)
+
+**1.1.0** — Pipeline Engine
+- Visual pipeline builder
+- 31 operators (csv, json, transform, xml, yaml)
+- Manifest export (JSON/YAML)
+- Execution metrics and logging
+
+**1.0.0** — Developer Ergonomics Pass V1
+
+---
+
+**URL:** https://mackan.eu/tools/json/

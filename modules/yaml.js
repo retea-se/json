@@ -108,6 +108,10 @@
             <i data-lucide="download"></i>
             ${t('download', 'Download')}
           </button>
+          <button type="button" class="json-toolbox__btn json-toolbox__btn--secondary" id="yamlSendToBtn">
+            <i data-lucide="send"></i>
+            ${t('send_to', 'Send to')}...
+          </button>
         </div>
       </div>
     `;
@@ -127,6 +131,7 @@
     document.getElementById('yamlPasteBtn').addEventListener('click', pasteFromClipboard);
     document.getElementById('yamlCopyBtn').addEventListener('click', copyOutput);
     document.getElementById('yamlDownloadBtn').addEventListener('click', downloadOutput);
+    document.getElementById('yamlSendToBtn').addEventListener('click', showSendToMenu);
     document.getElementById('yamlInput').addEventListener('input', debounce(saveState, 300));
     document.getElementById('yamlInput').addEventListener('keydown', handleKeydown);
   }
@@ -257,6 +262,15 @@
       window.JTA.trackDownload('yaml', ext);
     }
     showStatus(t('downloaded', 'Downloaded'), 'success');
+  }
+
+  function showSendToMenu() {
+    const output = document.getElementById('yamlOutput').value;
+    if (!output) { showStatus(t('no_output', 'No output to send'), 'error'); return; }
+    const btn = document.getElementById('yamlSendToBtn');
+    if (window.JSONToolboxHandoff) {
+      window.JSONToolboxHandoff.showSendToDropdown(btn, 'yaml', output);
+    }
   }
 
   function clearAll() {
