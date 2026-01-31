@@ -1,0 +1,54 @@
+# Dependencies
+node_modules/
+
+# Environment and secrets
+.env
+.env.*
+*.local
+config.local.php
+secrets.*
+
+# IDE and editor
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS artifacts
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Logs
+*.log
+logs/
+error_log
+
+# Cache
+*.cache
+cache/
+
+# Temporary files
+*.tmp
+tmp/
+
+# Build artifacts
+cli/node_modules/
+
+# Test artifacts
+coverage/
+.nyc_output/
+test-results/
+
+# Reports
+reports/
+
+# Claude/AI
+.claude/
+
+# Serena
+.serena/
+
+# Development notes
+notes/
