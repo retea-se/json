@@ -1,5 +1,7 @@
 # JSON Toolbox
 
+Status: Active • Repo: retea-se/json • Type: Tool (frontend, static)
+
 Local-first data conversion and JSON manipulation for developers.
 
 ```
