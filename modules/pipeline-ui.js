@@ -931,6 +931,8 @@
         border-radius: var(--radius-sm, 0.25rem);
         font-size: var(--text-body-sm, 0.875rem);
         width: 150px;
+        background: var(--jt-input-bg, var(--color-surface, #ffffff));
+        color: var(--color-text, #1e293b);
       }
 
       .pipeline-module__builder {
@@ -1055,7 +1057,7 @@
 
       .pipeline-module__step-params {
         padding: var(--space-sm, 0.5rem) var(--space-md, 0.75rem);
-        background: var(--color-background, #ffffff);
+        background: var(--color-surface, var(--jt-panel-bg, #ffffff));
         border-top: 1px solid var(--color-border, #e2e8f0);
         display: flex;
         flex-wrap: wrap;
@@ -1207,7 +1209,7 @@
       }
 
       .pipeline-module__modal-content {
-        background: var(--color-background, #ffffff);
+        background: var(--color-surface, var(--jt-panel-bg, #ffffff));
         border-radius: var(--radius-lg, 0.5rem);
         width: 90%;
         max-width: 500px;
@@ -1257,6 +1259,8 @@
         border: 1px solid var(--color-border, #e2e8f0);
         border-radius: var(--radius-md, 0.375rem);
         font-size: var(--text-body-sm, 0.875rem);
+        background: var(--jt-input-bg, var(--color-surface, #ffffff));
+        color: var(--color-text, #1e293b);
       }
 
       .pipeline-module__operator-list {
@@ -1363,7 +1367,7 @@
         border-radius: var(--radius-md, 0.375rem);
         font-size: var(--text-body-sm, 0.875rem);
         font-family: var(--font-mono, monospace);
-        background: var(--color-background, #ffffff);
+        background: var(--jt-input-bg, var(--color-surface, #ffffff));
         color: var(--color-text, #1e293b);
       }
 
