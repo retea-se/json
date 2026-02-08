@@ -13,8 +13,8 @@ $lang = getLang();
 $translations = [
     'sv' => [
         // Meta & SEO
-        'title' => 'JSON Toolbox - Komplett verktygslåda för JSON och datakonvertering',
-        'meta_description' => 'Kraftfull JSON-verktygslåda: konvertera CSV, XML, YAML, formatera, validera, reparera och transformera JSON. 100% lokal processing - ingen data lämnar din webbläsare.',
+        'title' => 'JSON Formatter — Formatera, validera och konvertera JSON',
+        'meta_description' => 'Formatera JSON online, konvertera CSV till JSON, validera och reparera. Komplett JSON-verktygslåda med trädvy, diff och schema. 100% lokalt i webbläsaren.',
         'keywords' => 'json toolbox, json converter, csv to json, xml to json, yaml to json, json formatter, json validator, json fixer, json diff, jsonpath, json schema, typescript interface',
 
         // Page content
@@ -516,8 +516,8 @@ $translations = [
     ],
     'en' => [
         // Meta & SEO
-        'title' => 'JSON Toolbox - Complete toolkit for JSON and data conversion',
-        'meta_description' => 'Powerful JSON toolkit: convert CSV, XML, YAML, format, validate, repair and transform JSON. 100% local processing - no data leaves your browser.',
+        'title' => 'JSON Formatter — Format, validate and convert JSON online',
+        'meta_description' => 'Format JSON online, convert CSV to JSON, validate and repair. Complete JSON toolkit with tree view, diff and schema. 100% local in your browser.',
         'keywords' => 'json toolbox, json converter, csv to json, xml to json, yaml to json, json formatter, json validator, json fixer, json diff, jsonpath, json schema, typescript interface',
 
         // Page content

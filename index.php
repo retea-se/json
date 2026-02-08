@@ -156,10 +156,14 @@ $extraHead = getHreflangTags($canonical, $langSupport) . '
 <meta property="og:description" content="' . htmlspecialchars($metaDescription, ENT_QUOTES, 'UTF-8') . '">
 <meta property="og:url" content="' . htmlspecialchars($canonical, ENT_QUOTES, 'UTF-8') . '">
 <meta property="og:type" content="website">
+<meta property="og:image" content="https://mackan.eu/tools/json/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
 <meta property="og:site_name" content="Mackan.eu">
-<meta name="twitter:card" content="summary">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="' . htmlspecialchars($title, ENT_QUOTES, 'UTF-8') . '">
 <meta name="twitter:description" content="' . htmlspecialchars($metaDescription, ENT_QUOTES, 'UTF-8') . '">
+<meta name="twitter:image" content="https://mackan.eu/tools/json/og-image.png">
 <link rel="stylesheet" href="style.css?v=5">';
 
 include '../../includes/tool-layout-start.php';
